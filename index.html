@@ -723,6 +723,57 @@ body{background-image:none}
   .askfield{font-size:16.5px; padding:15px 17px}
   .askhead h3{font-size:17.5px}
 }
+
+/* ============ THE SEND-OFF ============ */
+footer{border-top:none; padding-top:0; margin-top:56px}
+.sendoff{
+  position:relative; max-width:680px; margin:0 auto 40px;
+  padding:44px 48px 40px; border-radius:14px;
+  background:linear-gradient(180deg, var(--accent-soft), var(--surface) 70%);
+  border:1px solid var(--accent-tint);
+}
+.sendoff-mark{
+  position:absolute; top:-21px; left:50%; transform:translateX(-50%);
+  width:42px; height:42px; color:var(--accent);
+  background:var(--ground); border-radius:99px; padding:4px;
+}
+.sendoff-eyebrow{
+  text-align:center; font-size:12.5px; font-weight:700; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--accent); margin-bottom:10px;
+}
+.sendoff h2{
+  text-align:center; font-size:clamp(30px,4.4vw,42px); letter-spacing:-.02em;
+  margin-bottom:24px; color:var(--ink);
+}
+.sendoff p{
+  font-family:var(--f-display); font-size:17.5px; line-height:1.72;
+  color:var(--ink-2); margin-bottom:16px;
+}
+.sendoff p b{color:var(--ink); font-weight:700}
+.sendoff p em{font-style:italic; color:var(--ink)}
+.sendoff q{font-style:italic; color:var(--accent-deep)}
+.sendoff q::before{content:"\201C"}
+.sendoff q::after{content:"\201D"}
+.sendoff-last{
+  text-align:center; font-size:19px !important; color:var(--ink) !important;
+  font-style:italic; margin-top:26px !important; padding-top:22px;
+  border-top:1px solid var(--accent-tint);
+}
+.sig{
+  text-align:center; font-family:var(--f-display); font-style:italic;
+  font-size:24px !important; font-weight:600; color:var(--accent-deep) !important;
+  margin-top:6px !important; margin-bottom:0 !important;
+}
+footer .disclaim{
+  max-width:680px; margin:0 auto; padding-top:26px;
+  border-top:1px solid var(--line); text-align:center;
+}
+@media (max-width:620px){
+  .sendoff{padding:34px 22px 30px}
+  .sendoff p{font-size:16.5px}
+  .sendoff-last{font-size:17.5px !important}
+  .sig{font-size:21px !important}
+}
 </style>
 
 <header class="bar">
@@ -1102,8 +1153,30 @@ body{background-image:none}
 
 <footer>
   <div class="wrap">
-    <p class="disclaim"><b>About this page.</b> A study aid and revision tool, not a clinical guideline. Doses, potency classes and thresholds follow standard international teaching references. Your hospital formulary, your seniors, and Saudi MOH and local protocol always win over anything written here. Every illustration here is an original schematic drawing, not a clinical photograph. Verify before you prescribe.</p>
-    <p class="disclaim" style="margin-top:14px">Made as a birthday present. The deadliest woman in the galaxy also had to learn everything from scratch once.</p>
+    <div class="sendoff">
+      <svg class="sendoff-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" stroke-width="1" opacity="0.35"></circle>
+        <circle cx="20" cy="20" r="11" fill="none" stroke="currentColor" stroke-width="2"></circle>
+        <circle cx="20" cy="20" r="4" fill="currentColor"></circle>
+      </svg>
+
+      <p class="sendoff-eyebrow">One last thing, and then I'll let you go</p>
+      <h2>Go on, then.</h2>
+
+      <p>You are going to be a very good dermatologist. Not because of this website — because you are the sort of person who lies awake worrying she doesn't know enough. That worry <em>is</em> the job. The ones who never feel it are the ones I'd be nervous about.</p>
+
+      <p>Some shifts you will feel like a variant who wandered onto the wrong timeline and is about to get pruned for it. Everyone on that ward feels exactly that. They simply have older badges and better poker faces.</p>
+
+      <p>Loki spent the whole series insisting he was <q>burdened with glorious purpose</q>, mostly to people who were not listening, and mostly while convinced he had been handed the wrong one. It turned out he was precisely where he needed to be the entire time — holding a great many things together at once, alone, at night. Which is a night shift with better lighting and a considerably worse haircut.</p>
+
+      <p>So: <b>good luck.</b> Go and be unbearably competent. Call me when it is quiet and I will bring the matcha — and when it is <em>not</em> quiet, remember that nobody on earth expects you to know all four thousand of them today. Not today, not this rotation, not for years yet.</p>
+
+      <p class="sendoff-last">Happy birthday, habibti. Now close the tab and go be brilliant.</p>
+
+      <p class="sig">— Jana</p>
+    </div>
+
+    <p class="disclaim"><b>The small print, because it matters.</b> This is a study aid and a revision tool, not a clinical guideline. Doses, potency classes and thresholds follow standard international teaching references. Your hospital formulary, your seniors, and Saudi MOH and local protocol always win over anything written here. Every illustration is an original schematic drawing, not a clinical photograph. Verify before you prescribe — every time, no exceptions, not even for me.</p>
   </div>
 </footer>
 
