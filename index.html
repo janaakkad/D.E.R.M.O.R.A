@@ -672,6 +672,56 @@ body{background-image:none}
 .altai-actions{display:flex; gap:9px; flex-wrap:wrap}
 .altai-actions .btn{font-size:14px; padding:10px 18px}
 .alt-hint{font-size:13px !important; color:var(--ink-3) !important; min-height:2.6em}
+
+/* ============ ASK — UNIVERSAL SEARCH ============ */
+.askbox{display:grid; gap:14px}
+.askfield{
+  width:100%; font-family:var(--f-body); font-size:19px; font-weight:500;
+  padding:20px 24px; border-radius:12px; border:2px solid var(--line-2);
+  background:var(--surface); color:var(--ink); box-shadow:var(--shadow);
+  transition:border-color .15s, box-shadow .15s;
+}
+.askfield::placeholder{color:var(--ink-3); font-weight:400}
+.askfield:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 4px var(--accent-soft)}
+.askhints{display:flex; flex-wrap:wrap; gap:7px; align-items:center}
+.hintlab{font-size:12.5px; font-weight:700; color:var(--ink-3); text-transform:uppercase; letter-spacing:.06em; margin-right:2px}
+.hintchip{
+  font-family:var(--f-body); font-size:13.5px; cursor:pointer; padding:6px 13px; border-radius:99px;
+  border:1px dashed var(--line-2); background:transparent; color:var(--ink-2); transition:all .13s;
+}
+.hintchip:hover{border-style:solid; border-color:var(--accent); color:var(--accent-deep); background:var(--accent-soft)}
+.askcount{font-size:13px; color:var(--ink-3); font-weight:600; margin-bottom:2px}
+.askresults{display:grid; gap:10px}
+.askcard{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 18px; border-left:3px solid var(--accent)}
+.askhead{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:8px}
+.askhead h3{font-size:19px; letter-spacing:-.01em; margin:0}
+.asksub{font-size:13px; color:var(--ink-3)}
+.askkind{
+  font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  padding:3px 9px; border-radius:5px; background:var(--ground-2); color:var(--ink-2); flex:none;
+}
+.askkind.k-emerg{background:var(--alert-soft); color:var(--alert)}
+.askkind.k-mimic{background:var(--rim-soft); color:var(--rim)}
+.askkind.k-region{background:var(--amber-soft); color:var(--amber)}
+.askkind.k-rare{background:var(--accent-soft); color:var(--accent-deep)}
+.askkind.k-ftu,.askkind.k-drug{background:var(--accent-soft); color:var(--accent-deep)}
+.askbody{font-size:14.5px; line-height:1.55; color:var(--ink-2)}
+.askbody b{color:var(--ink); font-weight:700}
+.askjump{display:inline-block; margin-top:10px; font-size:13px; font-weight:600; color:var(--accent); text-decoration:none}
+.askjump:hover{text-decoration:underline}
+.askresults mark{background:var(--accent-soft); color:var(--accent-deep); font-weight:700; padding:0 2px; border-radius:3px}
+.asknone{padding:24px; background:var(--surface); border:1px dashed var(--line-2); border-radius:10px}
+.asknone p{font-size:15px; color:var(--ink-2); line-height:1.55}
+.asknone-alt{margin-top:10px !important; font-size:14px !important}
+.linkbtn{
+  font-family:var(--f-body); font-size:inherit; font-weight:700; color:var(--accent);
+  background:none; border:none; padding:0; cursor:pointer; text-decoration:underline;
+}
+.linkbtn:hover{color:var(--accent-deep)}
+@media (max-width:620px){
+  .askfield{font-size:16.5px; padding:15px 17px}
+  .askhead h3{font-size:17.5px}
+}
 </style>
 
 <header class="bar">
@@ -687,7 +737,7 @@ body{background-image:none}
     </div>
     <nav aria-label="Sections">
       <a href="#start">Start here</a>
-      <a href="#ask">Ask</a>
+      <a href="#ask">Search</a>
       <a href="#describe">Describe</a>
       <a href="#atlas">Atlas</a>
       <a href="#redflags">Red flags</a>
@@ -782,70 +832,26 @@ body{background-image:none}
       </a>
       <a class="step" href="#ask">
         <span class="n">4</span>
-        <strong>Ask D.E.R.M.O.R.A.</strong>
-        <span>Still stuck, or want it explained differently? Type a question, or send a photo.</span>
+        <strong>Search for it</strong>
+        <span>One box that searches every answer on this page. Fastest route when you just need one fact.</span>
       </a>
     </div>
   </section>
   <section id="ask">
     <div class="sec-head">
-      <p class="eyebrow">The workshop</p>
-      <h2>Ask D.E.R.M.O.R.A. anything</h2>
-      <p>A dermatology assistant that lives on this page. Ask it to build a differential, explain a mechanism, sanity-check a plan, or describe what you are looking at. It runs on your own Claude account, so it only works for you — and it is opinionated about emergencies on purpose. Not a suit of armour around the world. Just a very well-read colleague who never sleeps.</p>
+      <p class="eyebrow">Ask</p>
+      <h2>One box. Everything on this page.</h2>
+      <p>Type a word — a sign, a drug, a diagnosis, a bit of Latin you half remember — and the answer comes up as you type. No sign-in, no second website, no waiting. Works offline once the page has loaded.</p>
     </div>
-    <div class="workshop">
-      <div class="wshead">
-        <svg class="wsorb" viewBox="0 0 48 48" role="img" aria-label="DERMORA's status indicator, drawn as an arc reactor.">
-          <circle cx="24" cy="24" r="21" fill="none" stroke="var(--stem)" stroke-width="1" opacity="0.4" stroke-dasharray="2 5"></circle>
-          <circle cx="24" cy="24" r="17" fill="none" stroke="var(--stem)" stroke-width="1.4" opacity="0.7"></circle>
-          <circle cx="24" cy="24" r="12" fill="none" stroke="var(--stem)" stroke-width="3"></circle>
-          <circle cx="24" cy="24" r="6.5" fill="var(--stem)" opacity="0.3"></circle>
-          <circle cx="24" cy="24" r="3.6" fill="var(--stem)"></circle>
-          <path d="M24 3v5M24 40v5M3 24h5M40 24h5" stroke="var(--stem)" stroke-width="1.6" stroke-linecap="round"></path>
-        </svg>
-        <div>
-          <div class="wstitle">D.E.R.M.O.R.A.</div>
-          <div class="eyebrow" style="letter-spacing:.1em">Dermatology emergencies, rashes, morphology, observation &amp; rotation assistant</div>
-        </div>
-        <span class="wsstatus" id="wsstatus">Booting</span>
-      </div>
-      <p class="wssub">At your service, Doctor. Type a question, or hand me a photograph and I will describe the morphology properly before either of us guesses.</p>
-
-      <div class="log" id="log" role="log" aria-live="polite" aria-label="Conversation with DERMORA"></div>
-
-      <div class="asker">
-        <textarea id="ask-in" rows="2" placeholder="e.g. Differential for an annular scaly plaque that is spreading despite hydrocortisone?" aria-label="Your question"></textarea>
-        <button class="iconbtn" id="imgbtn" type="button" hidden aria-label="Attach a photograph">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="4" width="18" height="16" rx="2.5"></rect>
-            <circle cx="8.5" cy="9.5" r="1.8"></circle>
-            <path d="M21 16l-5-5-9 9"></path>
-          </svg>
-        </button>
-        <input type="file" id="imgin" accept="image/*" hidden>
-        <button class="sendbtn" id="sendbtn" type="button">Ask</button>
-      </div>
-      <div class="pending" id="pending" hidden></div>
-
-      <div class="starters" id="starters"></div>
-
-      <details class="altai" id="altai">
-        <summary>Rather use ChatGPT? Two clicks, your own subscription.</summary>
-        <div class="altai-body">
-          <p>No web page can sign you in to ChatGPT — that hook does not exist for anyone. What this page <em>can</em> do is hand you the exact brief D.E.R.M.O.R.A. runs on, so ChatGPT answers under the same rules: emergency flagged in the first line, Fitzpatrick IV–VI differences called out, Gulf prevalence noted, and no invented references.</p>
-          <textarea id="alt-q" rows="2" placeholder="Type your question here — e.g. differential for a painless chronic ulcer with a rolled border" aria-label="Your question for ChatGPT"></textarea>
-          <div class="altai-actions">
-            <button class="btn btn-primary" id="alt-copy" type="button">Copy the full prompt</button>
-            <a class="btn btn-ghost" href="https://chatgpt.com/" target="_blank" rel="noopener">Open ChatGPT</a>
-          </div>
-          <p class="alt-hint" id="alt-hint">Copy, open ChatGPT, paste. That is the whole thing — and it works the same in Gemini, Copilot, or anything else you already pay for.</p>
-          <textarea id="alt-out" rows="7" readonly hidden aria-label="The prompt, ready to copy manually"></textarea>
-        </div>
-      </details>
-
-      <p class="wsfoot"><b>How this works.</b> D.E.R.M.O.R.A. runs on your own Claude account — the first time you ask, Claude will check that you are happy for this page to use it. She has no access to patient records, cannot see anything you do not type or attach, and remembers nothing after you close the tab. She is a study aid, not a diagnostic device, and she does not replace examining the patient, asking your seniors, or local protocol.</p>
+    <div class="askbox">
+      <input class="askfield" id="askfield" type="search" autocomplete="off"
+        placeholder="Try:  Nikolsky   ·   annular   ·   clobetasol   ·   sandfly   ·   how much cream"
+        aria-label="Search everything on this page">
+      <div class="askhints" id="askhints"></div>
+      <div class="askresults" id="askresults" role="region" aria-live="polite"></div>
     </div>
   </section>
+
 
   <section id="describe">
     <div class="sec-head">
@@ -1941,247 +1947,162 @@ var DERMORA_RULES = [
 "You are an educational aid, not a diagnostic device. Frame management as general clinical teaching and defer to local protocol and formulary. Keep answers under 350 words unless asked to expand."
 ].join("\n");
 
-var STARTERS = [
- "Build me a differential for an annular scaly plaque spreading despite hydrocortisone.",
- "How do I tell SJS from staph scalded skin at the bedside?",
- "Explain the pathophysiology of DRESS and why the taper has to be slow.",
- "What am I missing about erythema in Fitzpatrick V skin?",
- "Quiz me on bullous disease until I get three wrong.",
- "Explain psoriasis to me like I am five, then like I am a consultant.",
- "I have five minutes before rounds. What should I revise?",
- "Non-healing ulcer, four months, patient from Al-Ahsa. Walk me through it.",
- "Talk me through choosing a steroid potency for facial eczema.",
- "Summarise what an intern actually needs to know about melanoma staging."
-];
 
-var sampleFn = null, chatTurns = [], busy = false, ctl = null, pendingImg = null;
-
-function esc(s){
-  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-}
-function md(src){
-  var lines = esc(src).split("\n"), out = [], inList = false;
-  function closeList(){ if(inList){ out.push("</ul>"); inList = false; } }
-  for(var i = 0; i < lines.length; i++){
-    var L = lines[i];
-    var t = L.replace(/`([^`]+)`/g, "<code>$1</code>")
-             .replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>")
-             .replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, "$1<i>$2</i>");
-    if(/^\s*#{1,4}\s+/.test(L)){
-      closeList();
-      out.push("<h4>" + t.replace(/^\s*#{1,4}\s+/, "") + "</h4>");
-    } else if(/^\s*[-*]\s+/.test(L)){
-      if(!inList){ out.push("<ul>"); inList = true; }
-      out.push("<li>" + t.replace(/^\s*[-*]\s+/, "") + "</li>");
-    } else if(/^\s*\d+\.\s+/.test(L)){
-      if(!inList){ out.push("<ul>"); inList = true; }
-      out.push("<li>" + t.replace(/^\s*\d+\.\s+/, "") + "</li>");
-    } else if(L.trim() === ""){
-      closeList();
-    } else {
-      closeList();
-      out.push("<p style='margin:7px 0'>" + t + "</p>");
-    }
-  }
-  closeList();
-  return out.join("");
-}
-function bubble(cls, html){
-  var d = document.createElement("div");
-  d.className = "bub " + cls;
-  d.innerHTML = html;
-  var log = document.getElementById("log");
-  log.appendChild(d);
-  log.scrollTop = log.scrollHeight;
-  return d;
-}
-var ERRCOPY = {
-  not_granted:"You declined, so DERMORA is off for this visit. Reload the page to be asked again.",
-  sampling_disabled:"Claude answers are turned off for this account right now.",
-  not_declared:"This copy of the page cannot reach Claude.",
-  capability_disabled:"Claude answers are unavailable on this page right now.",
-  capability_removed:"Claude answers are unavailable on this page right now.",
-  session_expired:"Your Claude session expired — sign in again and reload.",
-  rate_limited:"Too many questions too quickly. Give it a minute.",
-  prompt_too_large:"That was too long to send. Try trimming it down.",
-  images_unavailable:"This account cannot send images to Claude.",
-  image_rejected:"That image was rejected — try a smaller JPEG or PNG.",
-  refused:"DERMORA declined that one. Try rephrasing it.",
-  empty_completion:"Nothing came back. Ask again.",
-  upstream_error:"The connection dropped mid-answer. Try again."
+/* ================= ASK — SEARCH THE WHOLE PAGE ================= */
+var INDEX = [];
+var KIND = {
+  cond:   { label:"Condition",   href:"#library"   },
+  region: { label:"Seen here",   href:"#library"   },
+  rare:   { label:"Rare",        href:"#library"   },
+  mimic:  { label:"Mimicker",    href:"#mimics"    },
+  emerg:  { label:"Emergency",   href:"#redflags"  },
+  morph:  { label:"Morphology",  href:"#atlas"     },
+  pearl:  { label:"Skin tones",  href:"#tones"     },
+  drug:   { label:"Prescribing", href:"#topical"   },
+  ftu:    { label:"How much",    href:"#topical"   }
 };
 
-function setBusy(b){
-  busy = b;
-  var s = document.getElementById("sendbtn");
-  s.disabled = b;
-  s.textContent = b ? "Stop" : "Ask";
-}
-
-async function askDermora(text){
-  if(!sampleFn || busy) return;
-  var imgs = pendingImg;
-  var shownImg = imgs ? '<img class="thumb" src="' + URL.createObjectURL(imgs) + '" alt="The photograph you attached">' : "";
-  bubble("me", shownImg + esc(text).replace(/\n/g, "<br>"));
-  clearPending();
-  document.getElementById("ask-in").value = "";
-
-  chatTurns.push({ role:"user", content: text + (imgs ? "\n\n[A photograph is attached to this message.]" : "") });
-  if(chatTurns.length > 12) chatTurns = chatTurns.slice(-12);
-
-  var THINKING = [
-    "Running the differential",
-    "Consulting the archive",
-    "Checking this is not an emergency first",
-    "Cross-referencing the boring explanation before the exciting one",
-    "Reticulating splines, allegedly",
-    "Asking the other three thousand dermatoses to sit down"
-  ];
-  var out = bubble("ai", '<span class="dots"><span></span><span></span><span></span></span>' +
-    '<span style="color:var(--ink-3);font-size:13px;margin-left:8px">' +
-    THINKING[Math.floor(Math.random() * THINKING.length)] + '…</span>');
-  setBusy(true);
-  ctl = new AbortController();
-  var opts = {
-    cache:false,
-    signal: ctl.signal,
-    onText: function(u){
-      out.innerHTML = md(u.text);
-      var log = document.getElementById("log");
-      log.scrollTop = log.scrollHeight;
-    }
-  };
-  if(imgs) opts.images = imgs;
-  try {
-    var res = await sampleFn([{ role:"user", content: DERMORA_RULES }].concat(chatTurns), opts);
-    out.innerHTML = md(res.text);
-    chatTurns.push({ role:"assistant", content: res.text });
-    if(res.truncated) bubble("sys", "That answer was cut short — ask for less at a time.");
-  } catch(e){
-    if(e && e.code === "cancelled"){
-      if(e.text){ out.innerHTML = md(e.text); bubble("sys", "Stopped."); }
-      else { out.remove(); bubble("sys", "Stopped."); }
-    } else {
-      if(e && e.text){ out.innerHTML = md(e.text); } else { out.remove(); }
-      bubble("sys", (e && ERRCOPY[e.code]) || "Something went wrong. Try again.");
-      if(e && (e.code === "not_granted" || e.code === "sampling_disabled" || e.code === "not_declared")) shutDermora();
-    }
-  } finally {
-    setBusy(false);
-    ctl = null;
-  }
-}
-function clearPending(){
-  pendingImg = null;
-  var p = document.getElementById("pending");
-  p.hidden = true;
-  p.innerHTML = "";
-  document.getElementById("imgin").value = "";
-}
-function shutDermora(){
-  var s = document.getElementById("wsstatus");
-  s.textContent = "Offline";
-  s.classList.add("off");
-  document.getElementById("sendbtn").disabled = true;
-  document.getElementById("ask-in").disabled = true;
-}
-(function(){
-  document.getElementById("starters").innerHTML = STARTERS.map(function(s){
-    return '<button class="starter" type="button">' + s + '</button>';
-  }).join("");
-  document.getElementById("sendbtn").addEventListener("click", function(){
-    if(busy){ if(ctl) ctl.abort(); return; }
-    var v = document.getElementById("ask-in").value.trim();
-    if(v) askDermora(v);
-  });
-  document.getElementById("ask-in").addEventListener("keydown", function(e){
-    if(e.key === "Enter" && (e.metaKey || e.ctrlKey)){
-      e.preventDefault();
-      var v = this.value.trim();
-      if(v && !busy) askDermora(v);
-    }
-  });
-  Array.prototype.forEach.call(document.querySelectorAll(".starter"), function(b){
-    b.addEventListener("click", function(){
-      if(busy || !sampleFn) return;
-      askDermora(b.textContent);
+function buildIndex(){
+  var out = [];
+  COND.forEach(function(c){
+    out.push({
+      k: c.c === "region" ? "region" : c.c === "rare" ? "rare" : "cond",
+      t: c.n, sub: c.ar,
+      body:"<b>What you see.</b> " + c.see + "<br><b>The clue.</b> " + c.clue +
+           "<br><b>First line.</b> " + c.rx + "<br><b>The trap.</b> " + c.trap,
+      hay:(c.n + " " + c.ar + " " + c.tags.join(" ") + " " + c.see + " " + c.clue + " " + c.work + " " + c.rx + " " + c.trap).toLowerCase()
     });
   });
-  document.getElementById("imgbtn").addEventListener("click", function(){
-    document.getElementById("imgin").click();
+  MIMICS.forEach(function(m){
+    out.push({ k:"mimic", t:m.n, sub:m.ar,
+      body:"<b>Pretends to be.</b> " + m.masks.join(", ") + "<br><b>The tell.</b> " + m.tell + "<br><b>Unmask it.</b> " + m.unmask,
+      hay:(m.n + " " + m.ar + " " + m.masks.join(" ") + " " + m.tell + " " + m.unmask + " " + m.note).toLowerCase() });
   });
-  document.getElementById("imgin").addEventListener("change", function(){
-    var f = this.files && this.files[0];
-    if(!f) return;
-    pendingImg = f;
-    var p = document.getElementById("pending");
-    p.hidden = false;
-    p.innerHTML = '<img src="' + URL.createObjectURL(f) + '" alt="Attached photograph preview"> ' +
-      '<span>Attached. Ask your question and I will describe it.</span> ' +
-      '<button class="mini" style="border-color:var(--line-2);color:var(--ink-2)" type="button" id="dropimg">Remove</button>';
-    document.getElementById("dropimg").addEventListener("click", clearPending);
+  EMERG.forEach(function(e){
+    out.push({ k:"emerg", t:e.n, sub:e.t,
+      body:"<b>What you see.</b> " + e.look + "<br><b>The clue.</b> " + e.clue + "<br><b>Do this.</b> " + e.do,
+      hay:(e.n + " " + e.t + " " + e.look + " " + e.clue + " " + e.why + " " + e.do).toLowerCase() });
   });
-})();
+  ["primary","secondary","vascular","config","dermoscopy"].forEach(function(v){
+    (LESIONS[v] || []).forEach(function(l){
+      out.push({ k:"morph", t:l.n.replace(/&amp;/g,"&"), sub:l.s,
+        body: l.d + "<br><b>Seen in.</b> " + l.e,
+        hay:(l.n + " " + l.s + " " + l.d + " " + l.e).toLowerCase() });
+    });
+  });
+  PEARLS.forEach(function(p){
+    out.push({ k:"pearl", t:p.h, sub:"Skin of colour", body:p.p, hay:(p.h + " " + p.p).toLowerCase() });
+  });
+  LADDER.forEach(function(r){
+    var drugs = r.d.replace(/<br>/g, " · ");
+    out.push({ k:"drug", t:"Class " + r.c + " — " + (r.c === "1" ? "superpotent" : r.c === "7" ? "least potent" : "potency " + r.c),
+      sub:r.u, body:"<b>Examples.</b> " + drugs + "<br><b>Use for.</b> " + r.u,
+      hay:("class " + r.c + " " + drugs + " " + r.u + " steroid potency").toLowerCase() });
+  });
+  AREAS.forEach(function(a){
+    var n = a.n.replace(/&amp;/g,"&");
+    out.push({ k:"ftu", t:n + " — " + a.f + " FTU",
+      sub:"per application",
+      body:"One application to " + n.toLowerCase() + " takes <b>" + a.f + " fingertip units</b>, about <b>" +
+           (a.f * 0.5) + " g</b>. Twice daily for two weeks is roughly <b>" + (a.f * 0.5 * 2 * 14) + " g</b>. Use the calculator to combine areas.",
+      hay:(n + " fingertip unit ftu how much cream grams quantity dose " + a.f).toLowerCase() });
+  });
+  return out;
+}
 
+function hl(text, q){
+  if(!q) return text;
+  var safe = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return text.replace(new RegExp("(" + safe + ")", "ig"), "<mark>$1</mark>");
+}
 
-/* -------- use it with any other assistant -------- */
-(function(){
-  var btn = document.getElementById("alt-copy");
-  if(!btn) return;
-  btn.addEventListener("click", function(){
-    var q = document.getElementById("alt-q").value.trim();
-    var hint = document.getElementById("alt-hint");
-    var out = document.getElementById("alt-out");
-    var full = DERMORA_RULES + "\n\n---\n\nMy question: " + (q || "(type your question here)");
-    function manual(){
-      out.hidden = false;
-      out.value = full;
-      out.focus();
-      out.select();
-      hint.textContent = "Your browser blocked the clipboard. The prompt is selected below — press Ctrl+C (or Cmd+C) to copy it.";
-    }
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(full).then(function(){
-        hint.textContent = q
-          ? "Copied, with your question attached. Open ChatGPT and paste."
-          : "Copied. Open ChatGPT, paste, then type your question at the bottom.";
-        setTimeout(function(){
-          hint.textContent = "Copy, open ChatGPT, paste. That is the whole thing — and it works the same in Gemini, Copilot, or anything else you already pay for.";
-        }, 6000);
-      }, manual);
-    } else {
-      manual();
-    }
+var ASK_HINTS = ["Nikolsky","annular","clobetasol","sandfly","how much cream","burrow","pathergy","collarette","itchy blisters","nail"];
+
+function renderHints(){
+  document.getElementById("askhints").innerHTML =
+    '<span class="hintlab">Try</span>' + ASK_HINTS.map(function(h){
+      return '<button class="hintchip" type="button">' + h + '</button>';
+    }).join("");
+  Array.prototype.forEach.call(document.querySelectorAll(".hintchip"), function(b){
+    b.addEventListener("click", function(){
+      var f = document.getElementById("askfield");
+      f.value = b.textContent;
+      runAsk();
+      f.focus();
+    });
   });
-})();
-(async function bootDermora(){
-  var status = document.getElementById("wsstatus");
-  var s = null;
-  try { s = (window.claude && window.claude.use) ? await window.claude.use("sample") : null; } catch(e){ s = null; }
-  if(!s){
-    status.textContent = "Offline";
-    status.classList.add("off");
-    bubble("sys", "D.E.R.M.O.R.A. is asleep. She runs on <b>your own Claude account</b>, so she only wakes up when this page is opened while you are signed in to claude.ai. No account, or not signed in, and this one panel stays dark. Two things to know: every other part of this page works exactly the same without her — and if you already pay for ChatGPT, open <b>Rather use ChatGPT?</b> just below and take her brief with you.");
-    document.getElementById("sendbtn").disabled = true;
-    document.getElementById("ask-in").disabled = true;
+}
+
+function runAsk(){
+  var q = document.getElementById("askfield").value.trim().toLowerCase();
+  var host = document.getElementById("askresults");
+  if(q.length < 2){ host.innerHTML = ""; return; }
+
+  var hits = INDEX.filter(function(i){ return i.hay.indexOf(q) !== -1; });
+  hits.sort(function(a, b){
+    var at = a.t.toLowerCase().indexOf(q), bt = b.t.toLowerCase().indexOf(q);
+    if(at !== -1 && bt === -1) return -1;
+    if(bt !== -1 && at === -1) return 1;
+    return a.t.length - b.t.length;
+  });
+
+  if(!hits.length){
+    host.innerHTML =
+      '<div class="asknone">' +
+        '<p><b>Nothing on this page matches “' + q.replace(/</g,"&lt;") + '”.</b> Try a sign rather than a diagnosis — ' +
+        '<i>burrow</i>, <i>pathergy</i>, <i>collarette</i>, <i>rolled border</i>.</p>' +
+        '<p class="asknone-alt">Still nothing? Send it to whichever assistant you already use — ' +
+        '<button class="linkbtn" type="button" id="ask-gpt">copy a ready-made prompt</button> with your question attached.</p>' +
+      '</div>';
+    var g = document.getElementById("ask-gpt");
+    if(g) g.addEventListener("click", function(){ copyPrompt(document.getElementById("askfield").value.trim(), g); });
     return;
   }
-  sampleFn = s;
-  status.textContent = "Online";
-  try {
-    var lim = await s.limits();
-    if(lim && lim.images){
-      var b = document.getElementById("imgbtn");
-      b.hidden = false;
-      document.getElementById("imgin").accept = (lim.images.mediaTypes || []).join(",") || "image/*";
-    }
-  } catch(e){ /* no image affordance */ }
-  var hello = ["**At your service, Doctor.**", "",
-    "Ask me for a differential, a mechanism, a management plan, or a drill. Attach a photograph and I will describe the morphology properly before either of us starts guessing.", "",
-    "Two standing rules: if what you describe could be an emergency, I say so in the first line — and I will tell you when I am not sure rather than inventing something."].join("\n");
-  bubble("ai", md(hello));
-})();
 
+  var shown = hits.slice(0, 14);
+  host.innerHTML =
+    '<p class="askcount">' + hits.length + (hits.length === 1 ? " answer" : " answers") +
+      (hits.length > 14 ? " — showing the first 14" : "") + '</p>' +
+    shown.map(function(i){
+      var k = KIND[i.k];
+      return '<article class="askcard">' +
+        '<div class="askhead"><span class="askkind k-' + i.k + '">' + k.label + '</span>' +
+        '<h3>' + hl(i.t, q) + '</h3>' +
+        (i.sub ? '<span class="asksub">' + i.sub + '</span>' : "") + '</div>' +
+        '<p class="askbody">' + hl(i.body, q) + '</p>' +
+        '<a class="askjump" href="' + k.href + '">Open the full ' + k.label.toLowerCase() + ' section</a>' +
+      '</article>';
+    }).join("");
+}
+
+function copyPrompt(q, btn){
+  var full = DERMORA_RULES + "\n\n---\n\nMy question: " + (q || "(type your question here)");
+  function manual(){
+    btn.textContent = "press Ctrl+C now";
+    var ta = document.createElement("textarea");
+    ta.value = full;
+    ta.style.cssText = "position:fixed;left:-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    setTimeout(function(){ document.body.removeChild(ta); btn.textContent = "copy a ready-made prompt"; }, 8000);
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(full).then(function(){
+      btn.textContent = "copied — paste it anywhere";
+      setTimeout(function(){ btn.textContent = "copy a ready-made prompt"; }, 5000);
+    }, manual);
+  } else manual();
+}
+
+function initAsk(){
+  INDEX = buildIndex();
+  renderHints();
+  var f = document.getElementById("askfield");
+  f.addEventListener("input", runAsk);
+  f.addEventListener("search", runAsk);
+  f.setAttribute("placeholder",
+    "Search " + INDEX.length + " answers — a sign, a drug, a diagnosis, a word you half remember");
+}
 /* ================= DERMOSCOPY PLATES ================= */
 var DF = '<rect width="200" height="120" fill="#F0DCCB"></rect><circle cx="100" cy="60" r="54" fill="#E5C0A2"></circle>';
 LESIONS.dermoscopy = [
@@ -2523,6 +2444,7 @@ renderAtlas("primary");
 renderLib();
 calcFTU();
 renderQuiz();
+initAsk();
 renderDecks();
 renderFlash();
 </script>
