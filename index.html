@@ -146,11 +146,12 @@ header.bar{
 .hero h1{font-size:clamp(42px,6.4vw,74px); letter-spacing:-.025em; font-weight:600}
 .hero h1 em{font-style:italic; color:var(--accent)}
 .hero-lede{font-size:19px; color:var(--ink-2); max-width:52ch; margin-top:20px}
-.dedication{
+.dedication{display:grid; gap:9px; 
   margin-top:26px; padding:14px 18px; border-left:3px solid var(--accent);
   background:var(--surface-2); border-radius:0 10px 10px 0; font-size:15.5px; color:var(--ink-2);
 }
-.dedication b{color:var(--ink); font-family:var(--f-display); font-weight:700}
+.dedication b{color:var(--ink); font-weight:700}
+.dedication p{margin:0}
 .hero-cta{display:flex; gap:10px; flex-wrap:wrap; margin-top:26px}
 .btn{
   font-family:var(--f-body); font-size:14.5px; font-weight:600; cursor:pointer;
@@ -579,7 +580,7 @@ body{background-image:none}
 .dial select,.dial input,.search,.asker textarea,.iconbtn,.sendbtn,.thumb{border-radius:10px}
 .chip,.tab,.btn,.thought,.mask,.starter,.fbtn,.themebtn{border-radius:99px}
 .tag{border-radius:5px}
-.dedication{border-radius:0 10px 10px 0}
+.dedication{display:grid; gap:9px; border-radius:0 10px 10px 0}
 .rung-bar{border-radius:99px}
 
 /* no cockpit hardware */
@@ -758,7 +759,10 @@ body{background-image:none}
         <h1>Nobody is born knowing what a <em>plaque</em> is.</h1>
         <p class="hero-lede">Rotations move fast and derm has its own private language. This is the language, laid out plainly: how to say what you see, the patterns that actually walk in, and the handful of rashes that mean drop everything.</p>
         <div class="dedication">
-          <b>D.E.R.M.O.R.A.</b> — built for one very good doctor, on her birthday. There is a matcha break because you will need one, D.E.R.M.O.R.A. in the machine because the deadliest woman in the galaxy is good company on a night shift, and rather more Loki than a medical reference strictly requires. You are not behind; derm is just genuinely enormous, and nobody tells you that part out loud.
+          <p><b>Happy birthday.</b> Built for you by <b>Eng. Jana</b> — your best friend, who is not a doctor, and who had to look up what <i>annular</i> meant roughly forty times while making this.</p>
+          <p>There is a matcha break because you will need one, rather more Loki than a medical reference strictly requires, D.E.R.M.O.R.A. in the machine because the deadliest woman in the galaxy is good company on a night shift, and one search box so you never have to open three tabs to remember one word.</p>
+          <p>Tony Stark built his in a cave, with a box of scraps. I had a laptop, decent wifi and considerably more snacks — so you are entitled to hold me to a higher standard.</p>
+          <p><b>You are not behind.</b> Derm is just genuinely enormous, and nobody tells you that part out loud.</p>
         </div>
         <div class="hero-cta">
           <a class="btn btn-primary" href="#describe">Start with describing</a>
@@ -1949,8 +1953,121 @@ var DERMORA_RULES = [
 
 
 /* ================= ASK — SEARCH THE WHOLE PAGE ================= */
+
+/* --- plain-English starting points: how a rash actually presents --- */
+var APPROACH = [
+ { t:"What is a rash?", s:"Start here",
+   b:"<b>Rash is not a diagnosis — it is a description, and a vague one.</b> The word covers everything from urticaria to TEN, so the first job is always to replace it with something precise.<br><br>Three questions turn a rash into a diagnosis: <b>1.</b> What is the primary lesion — flat, raised, fluid-filled, pus-filled? <b>2.</b> Where is it, and where is it <i>not</i>? <b>3.</b> How long has it been there, and what did the patient start taking before it appeared?<br><br>Answer those three and the differential narrows from four thousand to about six.",
+   k:["rash","what is a rash","spots","skin problem","eruption","breakout","where do i start","basics","beginner"] },
+ { t:"How do I approach any rash?", s:"Five questions, in order",
+   b:"<b>1. How long?</b> Hours points to urticaria or a drug; weeks to months points to eczema, psoriasis, fungal, neoplastic.<br><b>2. Does it itch, or does it hurt?</b> Itch suggests eczema, scabies, urticaria, lichen planus. <b>Pain is the alarming one</b> — think SJS/TEN, necrotising fasciitis, zoster, calciphylaxis.<br><b>3. Is the patient systemically well?</b> Fever plus rash plus unwell changes everything.<br><b>4. What drugs, started when?</b> Go back eight weeks and include over-the-counter and herbal.<br><b>5. Check mucosa, palms, soles and nails</b> — every time. They rule diseases in and out for free.",
+   k:["approach","how do i","where to start","history","what to ask","assessment","system","method"] },
+ { t:"Is this an emergency?", s:"The eight things that mean act now",
+   b:"Any one of these should stop you leaving the ward:<br><br>• <b>Skin pain out of proportion</b> to what you can see<br>• <b>Mucosal erosions at two or more sites</b> — eyes, mouth, genitals<br>• <b>Nikolsky positive</b> — skin shears with lateral pressure<br>• <b>Non-blanching purpura</b> in an unwell patient<br>• <b>Fever plus rash plus looking unwell</b><br>• <b>More than 90% of the body</b> red and scaling<br>• <b>Spreading visibly over hours</b><br>• <b>A new drug in the last eight weeks</b> with any of the above",
+   k:["emergency","urgent","serious","scary","red flag","dangerous","worried","admit","escalate","when to call"] },
+ { t:"Itchy rash", s:"Differential by pattern",
+   b:"<b>Ferocious, worse at night, other people itching</b> → scabies. Check finger webs and wrists.<br><b>Flexural, chronic, lichenified</b> → atopic eczema.<br><b>Individual lesions gone within 24 hours</b> → urticaria.<br><b>Purple, flat-topped, shiny, wrists and mouth</b> → lichen planus.<br><b>Elderly, months of itch, then tense blisters</b> → bullous pemphigoid.<br><b>Itch with no rash at all</b> → check bile acids, ferritin, renal function, thyroid, and think lymphoma.",
+   k:["itch","itchy","itching","pruritus","scratching","irritated"] },
+ { t:"Blisters", s:"Differential by size, tension and mucosa",
+   b:"<b>Grouped small vesicles on erythema</b> → herpes simplex or zoster.<br><b>Monomorphic punched-out erosions in an atopic</b> → eczema herpeticum. <b>Aciclovir now.</b><br><b>Golden crust, children</b> → bullous impetigo.<br><b>Flaccid, painful, mouth first</b> → pemphigus vulgaris.<br><b>Tense, itchy, elderly, mucosa spared</b> → bullous pemphigoid.<br><b>Painful, dusky, mucosa involved, new drug</b> → SJS/TEN. <b>Emergency.</b><br><b>Dorsal hands, sun-exposed, fragile skin</b> → porphyria cutanea tarda.",
+   k:["blister","blisters","blistering","bulla","bullae","vesicle","fluid filled","bubbles"] },
+ { t:"An ulcer that will not heal", s:"Differential",
+   b:"<b>Gaiter area, oedema, haemosiderin</b> → venous.<br><b>Punched out, painful, absent pulses</b> → arterial.<br><b>Over a pressure point, painless, diabetic</b> → neuropathic.<br><b>Undermined violaceous border, worsens after any trauma</b> → pyoderma gangrenosum. <b>Do not debride.</b><br><b>Painless, rolled border, months, endemic area</b> → cutaneous leishmaniasis.<br><b>Rolled pearly edge or persistent non-healing on sun-exposed skin</b> → BCC or SCC. Biopsy it.<br><b>Exquisitely painful, retiform, dialysis</b> → calciphylaxis.",
+   k:["ulcer","ulcers","sore","wound","not healing","non healing","open wound","lesion won't heal"] },
+ { t:"Hair loss", s:"Scarring or not — decide first",
+   b:"<b>Look for follicular openings.</b> If they are still there it is non-scarring and potentially reversible; if the scalp is smooth and shiny, it is scarring and the window has closed.<br><br><b>Non-scarring:</b> alopecia areata (smooth patches, exclamation-mark hairs), telogen effluvium (diffuse, 3 months after a stressor), androgenetic, traction (fringe sign), tinea capitis (scale plus broken hairs — always in children).<br><b>Scarring:</b> discoid lupus, lichen planopilaris, central centrifugal cicatricial alopecia, late traction, folliculitis decalvans.",
+   k:["hair","hair loss","bald","balding","alopecia","shedding","thinning","scalp","hairline"] },
+ { t:"Red all over", s:"Erythroderma — this is an emergency",
+   b:"More than 90% of the body surface red and scaling. <b>They lose heat, fluid and protein through the skin</b>; high-output cardiac failure and sepsis are what kill.<br><br>Causes: psoriasis, eczema, drug reaction, cutaneous T-cell lymphoma, pityriasis rubra pilaris, or idiopathic.<br><br>Warm the room, bland emollient and wet wraps, fluids and albumin, monitor temperature. <b>Avoid systemic steroid if psoriasis is possible</b> — withdrawal can trigger generalised pustular disease.",
+   k:["red all over","erythroderma","whole body","everywhere","total body","exfoliative","peeling all over"] },
+ { t:"Rash with fever", s:"Differential — several are emergencies",
+   b:"<b>Non-blanching, unwell, rapidly spreading</b> → meningococcaemia. <b>Cultures then ceftriaxone immediately.</b><br><b>Painful skin, mucosal erosions, new drug</b> → SJS/TEN.<br><b>Facial oedema, eosinophilia, deranged LFTs, drug 2–8 weeks ago</b> → DRESS.<br><b>Sterile pustules in flexures, drug under 48 hours</b> → AGEP.<br><b>Juicy tender plaques, neutrophilia, antibiotics not working</b> → Sweet syndrome.<br><b>Child, conjunctivitis, cracked lips, hands and feet</b> → think Kawasaki.<br>Otherwise: viral exanthem, secondary syphilis, staph or strep toxin.",
+   k:["fever","febrile","temperature","unwell","sick","systemic","rash and fever","toxic"] },
+ { t:"Rash after starting a drug", s:"The timing tells you which one",
+   b:"<b>Under 48 hours</b> — AGEP. Sterile pustules on oedematous erythema, flexures first.<br><b>4 to 14 days</b> — morbilliform drug eruption. The common, benign one.<br><b>1 to 3 weeks</b> — SJS/TEN. Painful skin, mucosa, dusky macules.<br><b>2 to 8 weeks</b> — DRESS. Fever, facial oedema, eosinophilia, organ involvement.<br><b>Same spot every single time</b> — fixed drug eruption.<br><br>Take the history back <b>eight weeks</b> and ask specifically about over-the-counter medicines, herbal remedies and supplements — patients almost never volunteer them.",
+   k:["drug","medication","new drug","allergy","reaction","tablet","antibiotic","started taking","drug rash","adverse"] },
+ { t:"Rash in pregnancy", s:"Four to know",
+   b:"<b>Polymorphic eruption of pregnancy</b> — third trimester, itchy papules starting in abdominal striae, <b>classically spares the umbilicus</b>. Benign.<br><b>Pemphigoid gestationis</b> — urticarial plaques that <b>begin around the umbilicus</b>, then blister. Needs specialist care; risk to the fetus.<br><b>Intrahepatic cholestasis</b> — <b>severe itch with no primary rash</b>, palms and soles, worse at night. Check bile acids. Real fetal risk.<br><b>Atopic eruption of pregnancy</b> — earliest onset, eczematous, usually a flare of known atopy.",
+   k:["pregnancy","pregnant","gestation","obstetric","trimester","umbilicus","expecting"] },
+ { t:"Rash in a child", s:"Common and can't-miss",
+   b:"<b>Common:</b> atopic eczema, viral exanthems, impetigo, molluscum, scabies, tinea capitis, urticaria, nappy dermatitis.<br><br><b>Can't miss:</b> staph scalded skin (perioral crusting, flexural peeling, <b>mucosa spared</b>), meningococcaemia (non-blanching, unwell), Kawasaki (fever ≥5 days, conjunctivitis, cracked lips, hand and foot changes), HSP (palpable purpura on buttocks and legs, check urine and blood pressure), eczema herpeticum.",
+   k:["child","children","kid","baby","infant","paediatric","pediatric","neonate","toddler","school"] },
+ { t:"Photodistributed rash", s:"The spared areas prove it",
+   b:"Face, V of the neck and dorsal hands, <b>sparing the upper eyelids, the submental shadow and behind the ears</b>. Those spared zones are the diagnosis — no other pattern does that.<br><br>Causes: drug photosensitivity (doxycycline, thiazides, amiodarone, NSAIDs), lupus, dermatomyositis, polymorphic light eruption, porphyria, pellagra.",
+   k:["sun","sunlight","photosensitivity","photo","light","uv","outdoors","face and hands","sunburn"] },
+ { t:"Dark patches", s:"Hyperpigmentation",
+   b:"<b>Follows a previous rash exactly</b> → post-inflammatory hyperpigmentation. The commonest cause by far in Fitzpatrick IV–VI, and what patients care most about.<br><b>Symmetrical, cheeks and forehead, women</b> → melasma.<br><b>Velvety, neck and axillae</b> → acanthosis nigricans. Check for insulin resistance.<br><b>Reticulated net where heat was applied</b> → erythema ab igne.<br><b>Slate-grey, on minocycline or amiodarone</b> → drug-induced.<br><b>Widening single nail band with periungual spread</b> → melanoma until proven otherwise.",
+   k:["dark","dark patches","pigment","pigmentation","brown","hyperpigmentation","discolouration","discoloration","marks","spots left behind","melasma"] },
+ { t:"White patches", s:"Hypo- and depigmentation",
+   b:"<b>Chalk-white, sharply demarcated, periorificial or acral</b> → vitiligo. Wood's lamp accentuates.<br><b>Faint, scaly, cheeks of a child</b> → pityriasis alba.<br><b>Fine scale on the trunk, scrapes off, more obvious after sun</b> → tinea versicolor.<br><b>Follows a previous rash</b> → post-inflammatory hypopigmentation.<br><b>Anaesthetic patch with a thickened nerve</b> → <b>leprosy. Test sensation in every hypopigmented patch.</b><br><b>Genital, white, atrophic, itchy</b> → lichen sclerosus.",
+   k:["white","white patches","pale","light patches","depigmentation","hypopigmentation","vitiligo","losing colour","losing color"] },
+ { t:"Painful skin", s:"Pain is the most under-respected sign",
+   b:"<b>Pain out of proportion to what you can see, with numb overlying skin</b> → necrotising fasciitis. <b>Surgical emergency.</b><br><b>Painful skin before it looks dramatic, plus mucosa</b> → SJS/TEN.<br><b>Retiform purpura, dialysis</b> → calciphylaxis.<br><b>Unilateral, dermatomal, burning before the rash</b> → zoster.<br><b>Hot, spreading, unilateral leg</b> → cellulitis.<br><b>Ulcer with undermined violaceous edge</b> → pyoderma gangrenosum.<br><br>Everything else in dermatology itches. When a patient says it <i>hurts</i>, take it seriously.",
+   k:["pain","painful","hurts","sore","tender","burning","agony","stinging"] },
+ { t:"Rash on palms and soles", s:"A short, high-yield list",
+   b:"Involvement of palms <i>and</i> soles narrows things sharply:<br><br>• <b>Secondary syphilis</b> — copper-red scaly papules. Send serology; this is the classic miss.<br>• Hand eczema and contact dermatitis<br>• Palmoplantar psoriasis<br>• Tinea manuum — often one hand, two feet<br>• Erythema multiforme — true targets are acral<br>• Scabies in infants<br>• Hand, foot and mouth disease<br>• Kawasaki disease in a febrile child",
+   k:["palms","soles","hands","feet","palmar","plantar","hand","foot"] },
+ { t:"Groin and flexural rash", s:"Differential",
+   b:"<b>Sharp edge, satellite pustules, beefy red</b> → candida.<br><b>Raised scaly active edge, spares the scrotum</b> → tinea cruris.<br><b>Well-demarcated, shiny, no scale</b> → inverse psoriasis.<br><b>Painful nodules, sinus tracts, double comedones</b> → hidradenitis suppurativa.<br><b>Greasy scale, also scalp and nasolabial folds</b> → seborrhoeic dermatitis.<br><b>Coral-red under Wood's lamp</b> → erythrasma.<br><b>Shape matches a waistband or pad</b> → contact dermatitis.",
+   k:["groin","flexural","armpit","axilla","under breast","intertrigo","skin folds","between legs","inner thigh"] },
+ { t:"Facial rash", s:"Differential",
+   b:"<b>Comedones present</b> → acne. No comedones, think again.<br><b>Central flushing, papules, telangiectasia, no comedones</b> → rosacea.<br><b>Greasy scale in nasolabial folds and brows</b> → seborrhoeic dermatitis.<br><b>Papules sparing a clear rim around the lips, often after steroid cream</b> → perioral dermatitis. <b>Stop the steroid.</b><br><b>Malar, spares nasolabial folds, photosensitive</b> → lupus.<br><b>Violaceous eyelids and knuckles</b> → dermatomyositis.<br><b>Odd shape or sharp edge</b> → contact dermatitis.",
+   k:["face","facial","cheek","nose","chin","forehead","eyelid","perioral","malar","butterfly"] }
+];
+
+/* --- investigations --- */
+var TESTS = [
+ { t:"Skin scraping and KOH", s:"For anything scaly",
+   b:"<b>Scrape the raised active edge, never the cleared centre.</b> Use a blunt scalpel or a glass slide edge onto a second slide. Add potassium hydroxide, wait, look for branching septate hyphae.<br><br><b>The commonest cause of a false negative is topical steroid</b> — stop it for a week first. Send a portion for culture if you need the species, and take nail clippings or plucked hairs for those sites.",
+   k:["koh","scraping","fungal","fungus","mycology","tinea","potassium hydroxide","scrape","test for fungus"] },
+ { t:"Which biopsy do I take?", s:"It depends what you suspect",
+   b:"<b>Inflammatory rash</b> → 4 mm punch from a well-developed lesion, not the oldest or most excoriated one.<br><b>Suspected bullous disease</b> → <b>two</b> biopsies: lesional in formalin for histology, <b>perilesional</b> normal-looking skin in Michel's medium for immunofluorescence.<br><b>Suspected melanoma</b> → excisional with a narrow margin. Avoid shave.<br><b>Panniculitis</b> → deep incisional; a punch will not reach the fat.<br><b>Vasculitis</b> → fresh lesion under 48 hours old.",
+   k:["biopsy","punch","histology","sample","pathology","specimen","excision","how to biopsy"] },
+ { t:"Direct immunofluorescence", s:"How not to waste it",
+   b:"Take it from <b>perilesional skin</b> — normal-looking skin next to a blister, not the blister itself, where the immunoreactants have already been destroyed. Transport in <b>Michel's medium or saline</b>, never formalin.<br><br><b>Intercellular IgG, chicken-wire</b> → pemphigus.<br><b>Linear IgG and C3 at the basement membrane</b> → bullous pemphigoid.<br><b>Granular IgA in dermal papillae</b> → dermatitis herpetiformis.",
+   k:["dif","immunofluorescence","michel","pemphigus test","pemphigoid test","direct if"] },
+ { t:"Wood's lamp", s:"Thirty seconds, often decisive",
+   b:"Darkened room, UV-A at 365 nm.<br><br><b>Vitiligo</b> — bright blue-white accentuation, and reveals more than the naked eye.<br><b>Tinea versicolor</b> — pale yellow-green.<br><b>Erythrasma</b> — <b>coral red</b>.<br><b>Pseudomonas</b> — green.<br><b>Melasma</b> — epidermal pigment accentuates and responds better to treatment; dermal does not.",
+   k:["wood","woods lamp","uv","ultraviolet","black light","fluorescence","lamp"] },
+ { t:"Patch testing", s:"For allergic contact dermatitis only",
+   b:"Allergens applied to the back, read at <b>48 hours and again at 96 hours</b> — the delayed reading is what catches true allergy. It tests <b>type IV delayed hypersensitivity</b>.<br><br>It is <b>not</b> the test for immediate urticarial reactions, and not for irritant dermatitis, which is a clinical diagnosis. Patients must be off systemic steroid and off potent topical steroid on the back.",
+   k:["patch test","contact","allergy test","allergen","ppd","nickel","fragrance","cosmetic"] },
+ { t:"Bloods in a suspected drug reaction", s:"What to send",
+   b:"<b>FBC</b> — eosinophilia and atypical lymphocytes point to DRESS; marked neutrophilia to AGEP or Sweet syndrome.<br><b>LFTs and U&amp;E</b> — the organ involvement in DRESS is what harms, not the rash.<br><b>CRP</b>, and <b>glucose, urea and bicarbonate</b> if you are scoring SCORTEN.<br><b>Thyroid function at three months</b> after DRESS — late autoimmune sequelae are easy to miss.",
+   k:["bloods","blood test","investigation","labs","eosinophils","lft","fbc","what to order","workup"] },
+ { t:"Swabs and viral PCR", s:"When they change management",
+   b:"<b>Bacterial swab</b> — only if there is genuine evidence of infection: exudate, honey crust, spreading erythema, or a failing wound. Colonisation is not infection.<br><b>Viral PCR</b> for HSV and VZV — from the base of a deroofed fresh vesicle, not a dry crust. <b>Do not wait for the result before starting aciclovir</b> in suspected eczema herpeticum or ophthalmic zoster.",
+   k:["swab","pcr","culture","virology","herpes test","hsv","vzv","infection test"] }
+];
+
+/* --- concepts and signs --- */
+var CONCEPTS = [
+ { t:"Blanching or non-blanching?", s:"The single most useful bedside test",
+   b:"Press a glass slide firmly against the lesion, or press with a finger and watch as you release.<br><br><b>Blanches</b> — the blood is still inside the vessels. Erythema: cellulitis, drug eruption, inflammation.<br><b>Does not blanch</b> — the blood has left the vessels. Purpura, petechiae, ecchymosis, vasculitis.<br><br><b>Non-blanching plus an unwell patient is meningococcaemia until proven otherwise.</b> Non-blanching plus palpable is vasculitis until proven otherwise.",
+   k:["blanch","blanching","glass test","tumbler","non blanching","press","diascopy","purpura test"] },
+ { t:"Nikolsky sign", s:"How to elicit it and what it means",
+   b:"Apply firm <b>lateral</b> (shearing) pressure to normal-looking skin next to a lesion. If the epidermis slides or shears off, the sign is positive — the layers have lost their adhesion.<br><br>Positive in <b>pemphigus vulgaris, SJS/TEN and staphylococcal scalded skin</b>. Negative in bullous pemphigoid, where the split is deeper and the blisters stay tense.<br><br>A positive Nikolsky in an acutely unwell patient is a dermatological emergency.",
+   k:["nikolsky","sign","shear","skin slides","peeling","sloughing"] },
+ { t:"Primary versus secondary lesion", s:"Why the distinction matters",
+   b:"<b>Primary lesions</b> are what the disease produced: macule, papule, plaque, nodule, vesicle, bulla, pustule, wheal, cyst.<br><b>Secondary changes</b> are what happened afterwards — to the lesion, or by the patient: scale, crust, erosion, ulcer, fissure, excoriation, lichenification, atrophy, scar.<br><br>Find the <b>freshest, least disturbed lesion</b> you can and describe that one. An excoriated, infected, steroid-treated lesion tells you about the patient's behaviour, not the diagnosis.",
+   k:["primary","secondary","lesion","morphology","terminology","definitions","vocabulary","words"] },
+ { t:"How much cream do I prescribe?", s:"Fingertip units",
+   b:"<b>One fingertip unit is about 0.5 g</b> — the ribbon from the distal crease to the tip of an adult index finger — and covers two adult palms of skin.<br><br>Face and neck 2.5 · one arm 3 · one hand 1 · one leg 6 · trunk front 7 · trunk back 7 · scalp 3.<br><br><b>A whole-body application is about 20 g.</b> So twice daily for two weeks over the trunk needs roughly <b>200 g</b> — not the 30 g tube that usually gets sent home. Use the calculator in the prescribing section.",
+   k:["how much","quantity","how much cream","grams","tube","ftu","fingertip","amount","dispense","how many"] },
+ { t:"Which steroid strength, and where?", s:"Site decides potency",
+   b:"<b>Face, eyelids, genitals, flexures</b> — mild only (hydrocortisone 1%, desonide), and time-limited. These sites absorb dramatically more; <b>scrotal skin absorbs around forty times more than forearm</b>.<br><b>Trunk and limbs</b> — moderate to potent.<br><b>Palms, soles, thick lichenified plaques</b> — potent to superpotent, in short bursts.<br><br><b>Ointment beats cream</b> for dry, thick skin — the occlusion raises potency a whole class. Use a cream or lotion on wet or hairy areas.",
+   k:["steroid","potency","strength","which steroid","hydrocortisone","clobetasol","betamethasone","topical","cream or ointment","class"] },
+ { t:"Scarring or non-scarring?", s:"It decides the urgency",
+   b:"If a process scars, <b>every week of delay is permanent damage</b> — so the question changes how fast you act, not just what you call it.<br><br><b>Scars:</b> discoid lupus, lichen planopilaris, pyoderma gangrenosum, hidradenitis, ulcers, late traction alopecia, deep burns.<br><b>Does not scar:</b> alopecia areata, telogen effluvium, erosions, urticaria, most eczema, vitiligo (pigment can return).<br><br>On the scalp, look for <b>loss of follicular openings</b> — smooth shiny skin means the follicle is gone.",
+   k:["scar","scarring","permanent","reversible","cicatricial","damage","will it come back"] }
+];
+
+/* --- matching engine --- */
 var INDEX = [];
 var KIND = {
+  start:  { label:"Start here",  href:"#describe"  },
+  test:   { label:"Investigation", href:"#library" },
+  concept:{ label:"Key idea",    href:"#atlas"     },
   cond:   { label:"Condition",   href:"#library"   },
   region: { label:"Seen here",   href:"#library"   },
   rare:   { label:"Rare",        href:"#library"   },
@@ -1962,61 +2079,163 @@ var KIND = {
   ftu:    { label:"How much",    href:"#topical"   }
 };
 
+var STOP = {"a":1,"an":1,"the":1,"is":1,"are":1,"was":1,"what":1,"whats":1,"which":1,"how":1,"do":1,"does":1,"did":1,
+"i":1,"my":1,"me":1,"you":1,"to":1,"of":1,"for":1,"in":1,"on":1,"at":1,"it":1,"this":1,"that":1,"and":1,"or":1,
+"can":1,"should":1,"would":1,"with":1,"about":1,"be":1,"there":1,"any":1,"some":1,"tell":1,"explain":1,"mean":1,"means":1};
+
+var SYN = {
+  "rash":["rash","eruption","dermatitis","exanthem","lesion","plaque","papule"],
+  "spot":["papule","macule","lesion"], "spots":["papule","macule","lesion"],
+  "bump":["papule","nodule"], "bumps":["papule","nodule"], "lump":["nodule","cyst"],
+  "blister":["vesicle","bulla","blister"], "blisters":["vesicle","bulla","blister"],
+  "itchy":["itch","pruritus","pruritic"], "itch":["itch","pruritus","pruritic"], "itching":["itch","pruritus"],
+  "red":["erythema","erythematous","red"], "redness":["erythema","erythematous"],
+  "flaky":["scale","scaly","desquamation"], "flaking":["scale","scaly"], "peeling":["desquamation","scale","exfoliat"],
+  "scaly":["scale","scaly"], "ring":["annular"], "circle":["annular"], "circular":["annular","nummular"],
+  "bruise":["purpura","ecchymosis"], "bruising":["purpura","ecchymosis"],
+  "hives":["urticaria","wheal"], "welts":["urticaria","wheal"],
+  "sore":["ulcer","erosion","painful"], "sores":["ulcer","erosion"],
+  "pus":["pustule","pustular"], "pimple":["papule","pustule","acne"], "pimples":["acne","pustule"],
+  "bald":["alopecia"], "balding":["alopecia"], "hairloss":["alopecia"],
+  "nail":["nail","onycho","melanonychia"], "nails":["nail","onycho"],
+  "dry":["xerosis","dry","emollient"], "cream":["cream","ointment","topical","fingertip"],
+  "ointment":["ointment","topical"], "steroid":["steroid","corticosteroid","potency"],
+  "kids":["child","paediatric"], "kid":["child","paediatric"], "children":["child","paediatric"],
+  "baby":["infant","neonate","child"], "pregnant":["pregnancy"],
+  "sun":["photodistributed","photosensitivity","sun"], "sunlight":["photodistributed","photosensitivity"],
+  "dark":["hyperpigment","pigment","brown"], "white":["hypopigment","depigment","vitiligo"],
+  "pain":["pain","painful","tender"], "painful":["pain","painful","tender"], "hurts":["pain","painful"],
+  "emergency":["emergency","urgent","red flag"], "dangerous":["emergency","urgent"],
+  "fungal":["tinea","fungal","dermatophyte","koh"], "fungus":["tinea","fungal","koh"],
+  "cancer":["melanoma","carcinoma","malignan","lymphoma"], "tumour":["melanoma","carcinoma"],
+  "test":["biopsy","swab","scraping","koh","serology"], "tests":["biopsy","swab","scraping","koh"],
+  "treat":["treatment","first line","therapy"], "treatment":["treatment","first line","therapy"],
+  "differential":["differential","think","causes"], "causes":["differential","causes"]
+};
+
+function tokens(q){
+  var raw = q.toLowerCase().replace(/[^a-z0-9؀-ۿ\s-]/g, " ").split(/\s+/);
+  var out = [];
+  raw.forEach(function(w){
+    if(!w || STOP[w] || w.length < 2) return;
+    out.push(w);
+  });
+  return out.length ? out : raw.filter(function(w){ return w.length > 1; });
+}
+
+function forms(tok){
+  var v = [tok];
+  if(SYN[tok]) v = v.concat(SYN[tok]);
+  if(tok.length > 4){
+    if(/ies$/.test(tok)) v.push(tok.slice(0, -3) + "y");
+    if(/s$/.test(tok) && !/ss$/.test(tok)) v.push(tok.slice(0, -1));
+    if(/ing$/.test(tok)) v.push(tok.slice(0, -3));
+    if(/ed$/.test(tok)) v.push(tok.slice(0, -2));
+    if(/es$/.test(tok)) v.push(tok.slice(0, -2));
+  }
+  return v;
+}
+
+function scoreEntry(e, toks, phrase){
+  var total = 0, matched = 0, strong = false;
+  for(var i = 0; i < toks.length; i++){
+    var vs = forms(toks[i]), best = 0;
+    for(var j = 0; j < vs.length; j++){
+      var v = vs[j];
+      if(v.length < 3 && j > 0) continue;
+      var w = j === 0 ? 1 : 0.85;
+      if(e.t.toLowerCase().indexOf(v) !== -1){ best = Math.max(best, 20 * w); strong = true; }
+      else if(e.keys && e.keys.indexOf(v) !== -1){ best = Math.max(best, 18 * w); strong = true; }
+      else if((e.sub || "").toLowerCase().indexOf(v) !== -1){ best = Math.max(best, 6 * w); strong = true; }
+      else if(e.hay.indexOf(v) !== -1){ best = Math.max(best, 3 * w); }
+    }
+    if(best > 0){ matched++; total += best; }
+  }
+  if(!matched) return 0;
+  total += matched * 9;
+  if(matched === toks.length) total += 18;
+  /* a whole typed phrase landing in one entry is a strong signal */
+  if(phrase && phrase.indexOf(" ") !== -1){
+    if(e.keys && e.keys.indexOf(phrase) !== -1) total += 45;
+    else if(e.t.toLowerCase().indexOf(phrase) !== -1) total += 35;
+  }
+  /* weight is only fully earned by a real match, not a passing mention in the body */
+  return total + (e.w || 0) * (strong ? 1 : 0.35);
+}
+
 function buildIndex(){
   var out = [];
+  APPROACH.forEach(function(a, ai){
+    out.push({ k:"start", t:a.t, sub:a.s, body:a.b, w:18 + (ai < 2 ? 16 : 0),
+      keys:a.k.join(" "), hay:(a.t + " " + a.s + " " + a.b + " " + a.k.join(" ")).toLowerCase().replace(/<[^>]+>/g," ") });
+  });
+  CONCEPTS.forEach(function(c){
+    out.push({ k:"concept", t:c.t, sub:c.s, body:c.b, w:20,
+      keys:c.k.join(" "), hay:(c.t + " " + c.s + " " + c.b + " " + c.k.join(" ")).toLowerCase().replace(/<[^>]+>/g," ") });
+  });
+  TESTS.forEach(function(c){
+    out.push({ k:"test", t:c.t, sub:c.s, body:c.b, w:16,
+      keys:c.k.join(" "), hay:(c.t + " " + c.s + " " + c.b + " " + c.k.join(" ")).toLowerCase().replace(/<[^>]+>/g," ") });
+  });
+  EMERG.forEach(function(e){
+    out.push({ k:"emerg", t:e.n, sub:e.t, w:14, keys:"emergency urgent red flag serious",
+      body:"<b>What you see.</b> " + e.look + "<br><b>The clue.</b> " + e.clue + "<br><b>Do this.</b> " + e.do,
+      hay:(e.n + " " + e.t + " " + e.look + " " + e.clue + " " + e.why + " " + e.do + " emergency urgent").toLowerCase() });
+  });
   COND.forEach(function(c){
     out.push({
       k: c.c === "region" ? "region" : c.c === "rare" ? "rare" : "cond",
-      t: c.n, sub: c.ar,
+      t:c.n, sub:c.ar, w: c.c === "common" ? 8 : 4, keys:c.tags.join(" "),
       body:"<b>What you see.</b> " + c.see + "<br><b>The clue.</b> " + c.clue +
            "<br><b>First line.</b> " + c.rx + "<br><b>The trap.</b> " + c.trap,
-      hay:(c.n + " " + c.ar + " " + c.tags.join(" ") + " " + c.see + " " + c.clue + " " + c.work + " " + c.rx + " " + c.trap).toLowerCase()
-    });
+      hay:(c.n + " " + c.ar + " " + c.tags.join(" ") + " " + c.see + " " + c.clue + " " + c.work + " " + c.rx + " " + c.trap).toLowerCase() });
   });
   MIMICS.forEach(function(m){
-    out.push({ k:"mimic", t:m.n, sub:m.ar,
+    out.push({ k:"mimic", t:m.n, sub:m.ar, w:6, keys:m.masks.join(" ").toLowerCase(),
       body:"<b>Pretends to be.</b> " + m.masks.join(", ") + "<br><b>The tell.</b> " + m.tell + "<br><b>Unmask it.</b> " + m.unmask,
       hay:(m.n + " " + m.ar + " " + m.masks.join(" ") + " " + m.tell + " " + m.unmask + " " + m.note).toLowerCase() });
   });
-  EMERG.forEach(function(e){
-    out.push({ k:"emerg", t:e.n, sub:e.t,
-      body:"<b>What you see.</b> " + e.look + "<br><b>The clue.</b> " + e.clue + "<br><b>Do this.</b> " + e.do,
-      hay:(e.n + " " + e.t + " " + e.look + " " + e.clue + " " + e.why + " " + e.do).toLowerCase() });
-  });
   ["primary","secondary","vascular","config","dermoscopy"].forEach(function(v){
     (LESIONS[v] || []).forEach(function(l){
-      out.push({ k:"morph", t:l.n.replace(/&amp;/g,"&"), sub:l.s,
+      var n = l.n.replace(/&amp;/g,"&");
+      out.push({ k:"morph", t:n, sub:l.s, w:5, keys:"morphology lesion describe",
         body: l.d + "<br><b>Seen in.</b> " + l.e,
-        hay:(l.n + " " + l.s + " " + l.d + " " + l.e).toLowerCase() });
+        hay:(n + " " + l.s + " " + l.d + " " + l.e + " morphology").toLowerCase() });
     });
   });
   PEARLS.forEach(function(p){
-    out.push({ k:"pearl", t:p.h, sub:"Skin of colour", body:p.p, hay:(p.h + " " + p.p).toLowerCase() });
+    out.push({ k:"pearl", t:p.h, sub:"Skin of colour", body:p.p, w:6,
+      keys:"skin of colour fitzpatrick dark brown black melanin",
+      hay:(p.h + " " + p.p + " skin of colour fitzpatrick").toLowerCase() });
   });
   LADDER.forEach(function(r){
     var drugs = r.d.replace(/<br>/g, " · ");
-    out.push({ k:"drug", t:"Class " + r.c + " — " + (r.c === "1" ? "superpotent" : r.c === "7" ? "least potent" : "potency " + r.c),
+    out.push({ k:"drug", w:6, keys:"steroid potency topical strength class",
+      t:"Class " + r.c + " — " + (r.c === "1" ? "superpotent" : r.c === "7" ? "least potent" : "potency " + r.c),
       sub:r.u, body:"<b>Examples.</b> " + drugs + "<br><b>Use for.</b> " + r.u,
-      hay:("class " + r.c + " " + drugs + " " + r.u + " steroid potency").toLowerCase() });
+      hay:("class " + r.c + " " + drugs + " " + r.u + " steroid potency topical strength").toLowerCase() });
   });
   AREAS.forEach(function(a){
     var n = a.n.replace(/&amp;/g,"&");
-    out.push({ k:"ftu", t:n + " — " + a.f + " FTU",
-      sub:"per application",
+    out.push({ k:"ftu", t:n + " — " + a.f + " FTU", sub:"per application", w:5,
+      keys:"how much cream quantity grams fingertip unit dose amount",
       body:"One application to " + n.toLowerCase() + " takes <b>" + a.f + " fingertip units</b>, about <b>" +
            (a.f * 0.5) + " g</b>. Twice daily for two weeks is roughly <b>" + (a.f * 0.5 * 2 * 14) + " g</b>. Use the calculator to combine areas.",
-      hay:(n + " fingertip unit ftu how much cream grams quantity dose " + a.f).toLowerCase() });
+      hay:(n + " fingertip unit ftu how much cream grams quantity dose amount " + a.f).toLowerCase() });
   });
   return out;
 }
 
-function hl(text, q){
-  if(!q) return text;
-  var safe = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return text.replace(new RegExp("(" + safe + ")", "ig"), "<mark>$1</mark>");
+function hl(text, toks){
+  if(!toks || !toks.length) return text;
+  var parts = [];
+  toks.forEach(function(t){ if(t.length > 2) parts.push(t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")); });
+  if(!parts.length) return text;
+  return text.replace(new RegExp("(?![^<]*>)(" + parts.join("|") + ")", "ig"), "<mark>$1</mark>");
 }
 
-var ASK_HINTS = ["Nikolsky","annular","clobetasol","sandfly","how much cream","burrow","pathergy","collarette","itchy blisters","nail"];
+var ASK_HINTS = ["what is a rash","itchy","blisters","hair loss","is this an emergency","how much cream",
+  "Nikolsky","annular","white patches","rash after a drug","palms and soles","which steroid"];
 
 function renderHints(){
   document.getElementById("askhints").innerHTML =
@@ -2028,68 +2247,84 @@ function renderHints(){
       var f = document.getElementById("askfield");
       f.value = b.textContent;
       runAsk();
-      f.focus();
+      f.scrollIntoView({ behavior:"smooth", block:"start" });
     });
   });
 }
 
-function runAsk(){
-  var q = document.getElementById("askfield").value.trim().toLowerCase();
+function card(i, toks){
+  var k = KIND[i.k] || KIND.cond;
+  return '<article class="askcard k-' + i.k + '">' +
+    '<div class="askhead"><span class="askkind k-' + i.k + '">' + k.label + '</span>' +
+    '<h3>' + hl(i.t, toks) + '</h3>' +
+    (i.sub ? '<span class="asksub">' + i.sub + '</span>' : "") + '</div>' +
+    '<p class="askbody">' + hl(i.body, toks) + '</p>' +
+    '<a class="askjump" href="' + k.href + '">Open the full ' + k.label.toLowerCase() + ' section</a>' +
+  '</article>';
+}
+
+function showDefault(){
+  var picks = ["What is a rash?","How do I approach any rash?","Is this an emergency?",
+               "How much cream do I prescribe?","Blanching or non-blanching?","Itchy rash"];
   var host = document.getElementById("askresults");
-  if(q.length < 2){ host.innerHTML = ""; return; }
-
-  var hits = INDEX.filter(function(i){ return i.hay.indexOf(q) !== -1; });
-  hits.sort(function(a, b){
-    var at = a.t.toLowerCase().indexOf(q), bt = b.t.toLowerCase().indexOf(q);
-    if(at !== -1 && bt === -1) return -1;
-    if(bt !== -1 && at === -1) return 1;
-    return a.t.length - b.t.length;
+  var chosen = [];
+  picks.forEach(function(p){
+    for(var i = 0; i < INDEX.length; i++){ if(INDEX[i].t === p){ chosen.push(INDEX[i]); break; } }
   });
+  host.innerHTML = '<p class="askcount">Common starting points — or type anything above</p>' +
+    chosen.map(function(i){ return card(i, []); }).join("");
+}
 
-  if(!hits.length){
+function runAsk(){
+  var raw = document.getElementById("askfield").value.trim();
+  var host = document.getElementById("askresults");
+  if(raw.length < 2){ showDefault(); return; }
+
+  var toks = tokens(raw);
+  var scored = [];
+  INDEX.forEach(function(e){
+    var s = scoreEntry(e, toks, raw.toLowerCase());
+    if(s > 0) scored.push({ e:e, s:s });
+  });
+  scored.sort(function(a, b){ return b.s - a.s || a.e.t.length - b.e.t.length; });
+
+  if(!scored.length){
     host.innerHTML =
       '<div class="asknone">' +
-        '<p><b>Nothing on this page matches “' + q.replace(/</g,"&lt;") + '”.</b> Try a sign rather than a diagnosis — ' +
-        '<i>burrow</i>, <i>pathergy</i>, <i>collarette</i>, <i>rolled border</i>.</p>' +
-        '<p class="asknone-alt">Still nothing? Send it to whichever assistant you already use — ' +
-        '<button class="linkbtn" type="button" id="ask-gpt">copy a ready-made prompt</button> with your question attached.</p>' +
+        '<p><b>Nothing on this page matches “' + raw.replace(/</g,"&lt;") + '”.</b> Try a plain word for what you can see — ' +
+        '<i>itchy</i>, <i>blisters</i>, <i>ulcer</i>, <i>hair loss</i>, <i>dark patches</i> — or a sign like <i>pathergy</i> or <i>collarette</i>.</p>' +
+        '<p class="asknone-alt">Still nothing? <button class="linkbtn" type="button" id="ask-gpt">Copy a ready-made prompt</button> and paste it into whichever assistant you already use.</p>' +
       '</div>';
     var g = document.getElementById("ask-gpt");
-    if(g) g.addEventListener("click", function(){ copyPrompt(document.getElementById("askfield").value.trim(), g); });
+    if(g) g.addEventListener("click", function(){ copyPrompt(raw, g); });
     return;
   }
 
-  var shown = hits.slice(0, 14);
+  var shown = scored.slice(0, 12);
   host.innerHTML =
-    '<p class="askcount">' + hits.length + (hits.length === 1 ? " answer" : " answers") +
-      (hits.length > 14 ? " — showing the first 14" : "") + '</p>' +
-    shown.map(function(i){
-      var k = KIND[i.k];
-      return '<article class="askcard">' +
-        '<div class="askhead"><span class="askkind k-' + i.k + '">' + k.label + '</span>' +
-        '<h3>' + hl(i.t, q) + '</h3>' +
-        (i.sub ? '<span class="asksub">' + i.sub + '</span>' : "") + '</div>' +
-        '<p class="askbody">' + hl(i.body, q) + '</p>' +
-        '<a class="askjump" href="' + k.href + '">Open the full ' + k.label.toLowerCase() + ' section</a>' +
-      '</article>';
-    }).join("");
+    '<p class="askcount">' + scored.length + (scored.length === 1 ? " answer" : " answers") +
+      (scored.length > 12 ? " — best 12 first" : "") + '</p>' +
+    shown.map(function(x){ return card(x.e, toks); }).join("");
 }
 
 function copyPrompt(q, btn){
   var full = DERMORA_RULES + "\n\n---\n\nMy question: " + (q || "(type your question here)");
+  var label = btn.textContent;
   function manual(){
-    btn.textContent = "press Ctrl+C now";
     var ta = document.createElement("textarea");
     ta.value = full;
     ta.style.cssText = "position:fixed;left:-9999px";
     document.body.appendChild(ta);
     ta.select();
-    setTimeout(function(){ document.body.removeChild(ta); btn.textContent = "copy a ready-made prompt"; }, 8000);
+    try { document.execCommand("copy"); btn.textContent = "copied"; }
+    catch(e){ btn.textContent = "could not copy"; }
+    document.body.removeChild(ta);
+    setTimeout(function(){ btn.textContent = label; }, 5000);
   }
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(full).then(function(){
       btn.textContent = "copied — paste it anywhere";
-      setTimeout(function(){ btn.textContent = "copy a ready-made prompt"; }, 5000);
+      setTimeout(function(){ btn.textContent = label; }, 5000);
     }, manual);
   } else manual();
 }
@@ -2101,7 +2336,8 @@ function initAsk(){
   f.addEventListener("input", runAsk);
   f.addEventListener("search", runAsk);
   f.setAttribute("placeholder",
-    "Search " + INDEX.length + " answers — a sign, a drug, a diagnosis, a word you half remember");
+    "Ask anything — " + INDEX.length + " answers. Try “what is a rash”, “itchy”, “how much cream”");
+  showDefault();
 }
 /* ================= DERMOSCOPY PLATES ================= */
 var DF = '<rect width="200" height="120" fill="#F0DCCB"></rect><circle cx="100" cy="60" r="54" fill="#E5C0A2"></circle>';
