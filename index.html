@@ -9,7 +9,8 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%2317765A'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%23fff' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23fff'/%3E%3C/svg%3E">
 <style>
 *,*::before,*::after{box-sizing:border-box}
-html{color-scheme:light dark}
+html{color-scheme:light dark; scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{margin:0;font:14px system-ui,sans-serif}
 img{max-width:100%}
 [hidden]{display:none!important}
@@ -774,7 +775,75 @@ footer .disclaim{
   .sendoff-last{font-size:17.5px !important}
   .sig{font-size:21px !important}
 }
+
+/* ============ OPENING CARD ============ */
+.splash{
+  min-height:100vh;
+  min-height:100svh;
+  display:grid; place-items:center; text-align:center;
+  padding:56px 24px;
+  background:
+    radial-gradient(120% 70% at 50% 0%, var(--accent-soft) 0%, transparent 62%),
+    var(--ground);
+  border-bottom:1px solid var(--line);
+}
+.splash-in{max-width:640px; display:grid; justify-items:center; gap:0}
+.splash-mark{width:60px; height:60px; color:var(--accent); margin-bottom:26px}
+.splash-eyebrow{
+  font-size:12.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:20px;
+}
+.splash-title{
+  font-family:var(--f-display); font-size:clamp(46px,9vw,86px); line-height:1.02;
+  letter-spacing:-.03em; font-weight:700; color:var(--ink); margin-bottom:26px;
+}
+.splash-title em{font-style:italic; color:var(--accent-deep)}
+.splash-lede{
+  font-family:var(--f-display); font-size:clamp(17px,2.3vw,21px); line-height:1.62;
+  color:var(--ink-2); max-width:46ch; margin-bottom:10px;
+}
+.splash-lede-2{color:var(--ink); font-style:italic; margin-bottom:0}
+.splash-go{
+  display:inline-flex; flex-direction:column; align-items:center; gap:8px;
+  margin-top:46px; text-decoration:none; color:var(--ink-3);
+  font-size:12.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  transition:color .16s;
+}
+.splash-go:hover{color:var(--accent)}
+.splash-go svg{width:24px; height:24px; animation:nudge 2.4s ease-in-out infinite}
+@keyframes nudge{
+  0%,100%{transform:translateY(0); opacity:.75}
+  50%{transform:translateY(6px); opacity:1}
+}
+@media (prefers-reduced-motion:reduce){.splash-go svg{animation:none}}
+@media (max-width:620px){
+  .splash{min-height:92svh; padding:40px 20px}
+  .splash-mark{width:48px; height:48px; margin-bottom:20px}
+  .splash-go{margin-top:34px}
+}
 </style>
+
+<section class="splash" id="hello">
+  <div class="splash-in">
+    <svg class="splash-mark" viewBox="0 0 64 64" aria-hidden="true">
+      <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1" opacity="0.28"></circle>
+      <circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.5"></circle>
+      <circle cx="32" cy="32" r="14" fill="none" stroke="currentColor" stroke-width="3"></circle>
+      <circle cx="32" cy="32" r="5.5" fill="currentColor"></circle>
+      <path d="M32 1v7M32 56v7M1 32h7M56 32h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.6"></path>
+    </svg>
+
+    <p class="splash-eyebrow">A birthday present · from Jana</p>
+    <h1 class="splash-title">Greetings,<br><em>Dr. Leen.</em></h1>
+    <p class="splash-lede">One dermatology rotation. Roughly four thousand possible diagnoses. No sensible amount of time in which to learn them.</p>
+    <p class="splash-lede splash-lede-2">So I built you a shortcut.</p>
+
+    <a class="splash-go" href="#top">
+      <span>Scroll to begin</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </a>
+  </div>
+</section>
 
 <header class="bar">
   <div class="bar-in">
