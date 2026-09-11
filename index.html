@@ -43,6 +43,54 @@ img{max-width:100%}
 @media (max-width:900px){
   .cbltopic.open > .cbltoggle .cbmeta{display:none}
 }
+
+/* ============ THE CAT ============ */
+.cat{
+  position:fixed; left:0; bottom:16px; z-index:120;
+  display:flex; align-items:flex-end; gap:0;
+  transform:translateX(-115%); transition:transform .62s cubic-bezier(.34,1.3,.5,1);
+  pointer-events:none;
+}
+.cat.in{transform:translateX(0)}
+.cat-body{position:relative; pointer-events:auto; cursor:pointer; flex:none; filter:drop-shadow(0 6px 10px rgba(0,0,0,.22))}
+.cat-body svg{width:96px; height:auto; display:block}
+.cat.wiggle .cat-body{animation:catwiggle .5s ease}
+@keyframes catwiggle{
+  0%,100%{transform:rotate(0) translateY(0)}
+  30%{transform:rotate(-5deg) translateY(-5px)}
+  65%{transform:rotate(4deg) translateY(-2px)}
+}
+.cat-bubble{
+  pointer-events:auto; position:relative; margin-left:-6px; margin-bottom:34px;
+  max-width:230px; padding:11px 14px; border-radius:13px;
+  background:var(--surface); border:1px solid var(--line-2);
+  box-shadow:0 8px 22px -12px rgba(0,0,0,.45);
+  font-family:var(--f-body); font-size:13.5px; line-height:1.45; color:var(--ink);
+  opacity:0; transform:translateY(5px); transition:opacity .3s .22s, transform .3s .22s;
+}
+.cat.in .cat-bubble{opacity:1; transform:translateY(0)}
+.cat-bubble::before{
+  content:""; position:absolute; left:-7px; bottom:13px;
+  width:12px; height:12px; background:var(--surface);
+  border-left:1px solid var(--line-2); border-bottom:1px solid var(--line-2);
+  transform:rotate(45deg);
+}
+.cat-x{
+  position:absolute; top:-9px; right:-9px; width:22px; height:22px; border-radius:99px;
+  border:1px solid var(--line-2); background:var(--surface); color:var(--ink-3);
+  font-size:14px; line-height:1; cursor:pointer; display:grid; place-items:center; padding:0;
+}
+.cat-x:hover{color:var(--accent); border-color:var(--accent)}
+@media (prefers-reduced-motion:reduce){
+  .cat{transition:none}
+  .cat.wiggle .cat-body{animation:none}
+  .cat-bubble{transition:none}
+}
+@media (max-width:620px){
+  .cat{bottom:10px}
+  .cat-body svg{width:74px}
+  .cat-bubble{max-width:165px; font-size:12.5px; margin-bottom:26px}
+}
 </style>
 <title>D.E.R.M.O.R.A.</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2071,6 +2119,7 @@ function renderQuiz(){
         '<text class="arclab" x="75" y="98" text-anchor="middle">OF ' + QUIZ.length + '</text>' +
       '</svg>' +
       '<p>' + msg + '</p><div class="qnav" style="justify-content:center"><button class="btn btn-primary" id="qrestart" type="button">Run it again</button></div></div>';
+    if(window.catCheer) window.catCheer(qscore >= QUIZ.length*0.7 ? "That was a good round. I saw the whole thing." : "You finished it. That is the part that counts.");
     document.getElementById("qrestart").addEventListener("click", function(){
       qi = 0; qscore = 0; qanswered = false; renderQuiz();
     });
@@ -4016,6 +4065,71 @@ renderCBL();
 initAsk();
 renderDecks();
 renderFlash();
+
+/* ================= THE CAT ================= */
+(function(){
+  var LINES = [
+    "Still going. Good.",
+    "Drink some water. That is the whole message.",
+    "You have read more derm today than most people read in a year.",
+    "The consultant also had to look all this up once. Every bit of it.",
+    "Blink. Your eyes have earned it.",
+    "You are allowed to not know things. That is what this page is for.",
+    "Matcha break? I think matcha break.",
+    "If it is 3am, go to sleep. All of this will still be here.",
+    "Nobody has memorised all four thousand. Not one person alive.",
+    "Halfway through is still through.",
+    "Sit up a bit. There you go.",
+    "Whatever you just got wrong, you will never get wrong again.",
+    "You are doing a hard thing. That is why it feels hard.",
+    "One more topic, then stretch. I am watching.",
+    "Jana says you have got this. I am only the messenger.",
+    "Stop reading the same line four times. Take the break."
+  ];
+  var el = document.createElement("div");
+  el.className = "cat";
+  el.innerHTML = '<div class="cat-body" title="pet the cat">' + "<svg viewBox=\"0 0 118 128\" role=\"img\" aria-label=\"A small ginger cat looking at you.\"><defs><linearGradient id=\"fur\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#F3C489\"/><stop offset=\"100%\" stop-color=\"#DFA765\"/></linearGradient></defs><!-- tail --><path d=\"M92 112 q26 2 20 -20 q-4 -14 -16 -12\" fill=\"none\" stroke=\"#DFA765\" stroke-width=\"13\" stroke-linecap=\"round\"/><path d=\"M99 84 q8 -1 10 6\" fill=\"none\" stroke=\"#C98F4F\" stroke-width=\"4\" stroke-linecap=\"round\"/><!-- body --><path d=\"M26 126 q-6 -42 14 -58 h30 q20 16 14 58 z\" fill=\"url(#fur)\"/><!-- chest ruff --><path d=\"M40 96 q19 12 38 0 q-3 18 -19 22 q-16 -4 -19 -22z\" fill=\"#FBE6CB\" opacity=\".95\"/><!-- ears --><path d=\"M23 44 L20 15 L45 31 z\" fill=\"#E7B274\"/><path d=\"M95 44 L98 15 L73 31 z\" fill=\"#E7B274\"/><path d=\"M27 41 L25 23 L40 33 z\" fill=\"#F0B7B0\"/><path d=\"M91 41 L93 23 L78 33 z\" fill=\"#F0B7B0\"/><!-- ear tufts --><path d=\"M21 18 q-5 -7 -2 -11\" stroke=\"#E7B274\" stroke-width=\"2.6\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M97 18 q5 -7 2 -11\" stroke=\"#E7B274\" stroke-width=\"2.6\" fill=\"none\" stroke-linecap=\"round\"/><!-- head --><ellipse cx=\"59\" cy=\"58\" rx=\"42\" ry=\"35\" fill=\"url(#fur)\"/><!-- cheek fluff --><path d=\"M17 60 q-8 4 -6 10 q6 2 9 -3z\" fill=\"#F3C489\"/><path d=\"M101 60 q8 4 6 10 q-6 2 -9 -3z\" fill=\"#F3C489\"/><!-- tabby forehead stripes --><g stroke=\"#C98F4F\" stroke-width=\"3.4\" stroke-linecap=\"round\" fill=\"none\" opacity=\".85\"><path d=\"M59 26 v10\"/><path d=\"M47 29 l3 9\"/><path d=\"M71 29 l-3 9\"/></g><!-- eyes --><ellipse cx=\"43\" cy=\"57\" rx=\"9.5\" ry=\"10.5\" fill=\"#3B2A1B\"/><ellipse cx=\"75\" cy=\"57\" rx=\"9.5\" ry=\"10.5\" fill=\"#3B2A1B\"/><circle cx=\"46\" cy=\"53\" r=\"3.2\" fill=\"#fff\" opacity=\".92\"/><circle cx=\"78\" cy=\"53\" r=\"3.2\" fill=\"#fff\" opacity=\".92\"/><circle cx=\"40\" cy=\"61\" r=\"1.5\" fill=\"#fff\" opacity=\".55\"/><circle cx=\"72\" cy=\"61\" r=\"1.5\" fill=\"#fff\" opacity=\".55\"/><!-- muzzle --><ellipse cx=\"59\" cy=\"74\" rx=\"15\" ry=\"10\" fill=\"#FBE6CB\"/><path d=\"M59 70 l-4.5 4 h9 z\" fill=\"#D98A8A\"/><path d=\"M59 74 v4\" stroke=\"#C98F4F\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M59 78 q-5 5 -9 0\" fill=\"none\" stroke=\"#C98F4F\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M59 78 q5 5 9 0\" fill=\"none\" stroke=\"#C98F4F\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><!-- whiskers --><g stroke=\"#E9D3B4\" stroke-width=\"1.7\" stroke-linecap=\"round\" opacity=\".9\"><path d=\"M40 72 L16 68\"/><path d=\"M40 76 L17 78\"/><path d=\"M78 72 L102 68\"/><path d=\"M78 76 L101 78\"/></g><!-- paws --><ellipse cx=\"42\" cy=\"122\" rx=\"11\" ry=\"6.5\" fill=\"#FBE6CB\"/><ellipse cx=\"76\" cy=\"122\" rx=\"11\" ry=\"6.5\" fill=\"#FBE6CB\"/></svg>" + '</div>' +
+                 '<div class="cat-bubble"><button class="cat-x" type="button" aria-label="Send the cat away">&times;</button>' +
+                 '<span class="cat-say"></span></div>';
+  document.body.appendChild(el);
+
+  var say = el.querySelector(".cat-say");
+  var pool = LINES.slice(), timer = null, hideTimer = null, gone = false;
+  try { gone = sessionStorage.getItem("dermora.cat") === "off"; } catch(e){}
+
+  function nextLine(){
+    if(!pool.length) pool = LINES.slice();
+    return pool.splice(Math.floor(Math.random()*pool.length), 1)[0];
+  }
+  function show(line){
+    if(gone) return;
+    say.textContent = line || nextLine();
+    el.classList.add("in");
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(hide, 9000);
+  }
+  function hide(){ el.classList.remove("in"); }
+  function schedule(min, max){
+    clearTimeout(timer);
+    timer = setTimeout(function(){ show(); schedule(210000, 330000); }, min + Math.random()*(max-min));
+  }
+
+  el.querySelector(".cat-body").addEventListener("click", function(){
+    el.classList.add("wiggle");
+    setTimeout(function(){ el.classList.remove("wiggle"); }, 500);
+    show(nextLine());
+  });
+  el.querySelector(".cat-x").addEventListener("click", function(e){
+    e.stopPropagation(); gone = true; hide(); clearTimeout(timer);
+    try { sessionStorage.setItem("dermora.cat","off"); } catch(x){}
+  });
+
+  if(!gone) schedule(40000, 70000);
+
+  /* she also turns up when something is finished */
+  window.catCheer = function(line){ if(!gone){ show(line); } };
+})();
+
 </script>
 </body>
 </html>
