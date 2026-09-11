@@ -15,6 +15,42 @@ html{color-scheme:light dark; scroll-behavior:smooth}
 body{margin:0;font:14px system-ui,sans-serif}
 img{max-width:100%}
 [hidden]{display:none!important}
+
+/* ============ STICKY TOPIC HEADER ============ */
+/* when a topic is open its header follows you down, so you can collapse
+   it from wherever you have got to instead of scrolling back up */
+.cbltopic.open > .cbltoggle{
+  position:sticky;
+  top:52px;                 /* clears the site header */
+  z-index:6;
+  background:var(--surface);
+  border-radius:9px 9px 0 0;
+  box-shadow:0 1px 0 var(--line), 0 6px 14px -10px rgba(0,0,0,.45);
+}
+.cbltopic.open > .cbltoggle .cbchev{background:var(--accent); color:#fff}
+:root[data-theme="dark"] .cbltopic.open > .cbltoggle .cbchev{color:#06140E}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .cbltopic.open > .cbltoggle .cbchev{color:#06140E}
+}
+/* keep the rounded corners now that overflow is no longer clipping */
+.cbltopic > .cbltoggle{border-radius:9px 9px 0 0}
+.cbltopic .cblbody{border-radius:0 0 9px 9px}
+/* the collapse control needs to read as a control while it is stuck */
+.cbltopic.open > .cbltoggle::after{
+  content:"tap to collapse";
+  position:absolute; right:56px; top:50%; transform:translateY(-50%);
+  font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase;
+  color:var(--ink-3); opacity:0; transition:opacity .15s; pointer-events:none;
+}
+.cbltopic.open > .cbltoggle:hover::after{opacity:1}
+.cbltoggle{position:relative}
+@media (max-width:620px){
+  .cbltopic.open > .cbltoggle{top:48px}
+  .cbltopic.open > .cbltoggle::after{display:none}
+}
+@media (max-width:900px){
+  .cbltopic.open > .cbltoggle .cbmeta{display:none}
+}
 </style>
 <title>D.E.R.M.O.R.A.</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -836,7 +872,7 @@ footer .disclaim{
 .cblhead h3{font-size:22px; letter-spacing:-.01em; margin:0}
 .cblcount{margin-left:auto; font-size:12.5px; color:var(--ink-3); font-weight:600}
 .cbltopics{display:grid; gap:9px}
-.cbltopic{background:var(--surface); border:1px solid var(--line); border-radius:10px; overflow:hidden}
+.cbltopic{background:var(--surface); border:1px solid var(--line); border-radius:10px}
 .cbltopic.open{border-color:var(--accent)}
 .cbltoggle{
   width:100%; display:flex; align-items:center; gap:12px; text-align:left; cursor:pointer;
