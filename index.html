@@ -8,13 +8,6 @@
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%2317765A'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%23fff' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23fff'/%3E%3C/svg%3E">
 <style>
-*,*::before,*::after{box-sizing:border-box}
-html{color-scheme:light dark; scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{margin:0;font:14px system-ui,sans-serif}
-img{max-width:100%}
-[hidden]{display:none!important}
-</style>
 <title>D.E.R.M.O.R.A.</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..800;1,300..600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -880,6 +873,30 @@ footer .disclaim{
   .cblqs > li{padding-left:0}
   .cblqs > li::before{position:static; margin-bottom:7px}
   .cblq{font-size:16.5px}
+}
+
+/* ============ REAL PHOTO LINKS ============ */
+.photobar{
+  display:flex; flex-wrap:wrap; align-items:center; gap:8px;
+  margin:-6px 0 18px; padding:12px 14px;
+  background:var(--ground-2); border:1px solid var(--line); border-radius:10px;
+}
+.photolab{
+  font-size:11.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+  color:var(--ink-3); margin-right:2px;
+}
+.photolink{
+  display:inline-flex; align-items:center; gap:8px; text-decoration:none;
+  padding:7px 13px; border-radius:99px; border:1px solid var(--line-2);
+  background:var(--surface); color:var(--ink-2); font-size:13.5px;
+  transition:border-color .14s, color .14s, transform .14s;
+}
+.photolink:hover{border-color:var(--accent); color:var(--accent-deep); transform:translateY(-1px)}
+.photolink svg{width:16px; height:16px; flex:none; color:var(--accent)}
+.photolink b{color:var(--ink); font-weight:700}
+@media (max-width:620px){
+  .photobar{padding:10px}
+  .photolink{font-size:12.5px; padding:6px 10px}
 }
 </style>
 
@@ -2921,6 +2938,59 @@ Object.assign(CBL_EXTRA, {
   });
 })();
 
+
+/* ===== REAL CLINICAL PHOTOGRAPHS, PER TOPIC =====
+   Every URL below was checked and loads. DermNet carries 20-30+ real
+   photographs per condition, including skin of colour, and is free. */
+var PHOTOS = {
+ "Dermatology history & examination": ["https://dermnetnz.org/topics/terminology","Signs and terminology"],
+ "Dermatology investigations & biopsy": ["https://dermnetnz.org/topics/skin-biopsy","Biopsy techniques"],
+ "Morphology": ["https://dermnetnz.org/topics/terminology","Every lesion type, photographed"],
+ "Herpes simplex (HSV)": ["https://dermnetnz.org/topics/herpes-simplex","Labialis, whitlow, eczema herpeticum"],
+ "Herpes zoster (VZV)": ["https://dermnetnz.org/topics/herpes-zoster","Dermatomal rash, ophthalmic zoster"],
+ "Warts (HPV)": ["https://dermnetnz.org/topics/viral-wart","Common, plane, plantar, periungual"],
+ "Acne vulgaris": ["https://dermnetnz.org/topics/acne-vulgaris","Comedonal to nodulocystic, and scarring"],
+ "Rosacea": ["https://dermnetnz.org/topics/rosacea","All four subtypes, including rhinophyma"],
+ "Hidradenitis suppurativa": ["https://dermnetnz.org/topics/hidradenitis-suppurativa","Hurley I to III, axillary and submammary"],
+ "Atopic dermatitis": ["https://dermnetnz.org/topics/atopic-dermatitis","Infant to adult, across skin tones"],
+ "Urticaria": ["https://dermnetnz.org/topics/urticaria-an-overview","Weals, dermographism, angioedema"],
+ "Vitiligo": ["https://dermnetnz.org/topics/vitiligo","Segmental and non-segmental patterns"],
+ "Topical corticosteroid therapy": ["https://dermnetnz.org/topics/topical-steroid","Potency tables and steroid atrophy"],
+ "Cellulitis, erysipelas & folliculitis": ["https://dermnetnz.org/topics/cellulitis","Cellulitis, erysipelas, abscess"],
+ "Scabies": ["https://dermnetnz.org/topics/scabies","Burrows, nodules, crusted scabies"],
+ "Telogen effluvium": ["https://dermnetnz.org/topics/telogen-effluvium","Diffuse shedding, hair pull test"],
+ "Alopecia areata": ["https://dermnetnz.org/topics/alopecia-areata","Patchy, ophiasis, totalis, trichoscopy"],
+ "Androgenetic alopecia": ["https://dermnetnz.org/topics/female-pattern-hair-loss","Ludwig grades; male pattern linked too"],
+ "Psoriasis": ["https://dermnetnz.org/topics/psoriasis","Plaque, guttate, pustular, nail, inverse"],
+ "Dermatophytes & superficial fungal infection": ["https://dermnetnz.org/topics/tinea-corporis","Ringworm, kerion, tinea incognito"],
+ "Bullous pemphigoid": ["https://dermnetnz.org/topics/bullous-pemphigoid","Tense bullae, urticarial phase"]
+};
+
+/* a second source for the same topic, for breadth */
+var PHOTOS2 = {
+ "Androgenetic alopecia": ["https://dermnetnz.org/topics/male-pattern-hair-loss","Male pattern (Hamilton–Norwood)"],
+ "Psoriasis": ["https://dermnetnz.org/topics/nail-psoriasis","Nail psoriasis in detail"],
+ "Atopic dermatitis": ["https://www.blackandbrownskin.co.uk/","Eczema in brown and black skin"],
+ "Acne vulgaris": ["https://www.blackandbrownskin.co.uk/","Acne and PIH in darker skin"],
+ "Dermatophytes & superficial fungal infection": ["https://dermnetnz.org/topics/tinea-capitis","Tinea capitis and kerion"],
+ "Scabies": ["https://dermnetnz.org/topics/crusted-scabies","Crusted (Norwegian) scabies"],
+ "Bullous pemphigoid": ["https://dermnetnz.org/topics/pemphigus","Pemphigus, for the comparison"],
+ "Morphology": ["https://www.atlasdermatologico.com.br/","13,000 free photographs, searchable"]
+};
+
+function photoBar(title){
+ var a = PHOTOS[title], b = PHOTOS2[title];
+ if(!a) return "";
+ var out = '<div class="photobar"><span class="photolab">Real photographs</span>';
+ out += '<a class="photolink" href="' + a[0] + '" target="_blank" rel="noopener">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="10.5" r="1.8" fill="currentColor"/><path d="M21 17l-5-5-9 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+        '<span><b>DermNet</b> · ' + a[1] + '</span></a>';
+ if(b) out += '<a class="photolink" href="' + b[0] + '" target="_blank" rel="noopener">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="10.5" r="1.8" fill="currentColor"/><path d="M21 17l-5-5-9 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+        '<span>' + b[1] + '</span></a>';
+ out += '</div>';
+ return out;
+}
 function renderCBL(){
   var host = document.getElementById("cblhost");
   host.innerHTML = CBL.map(function(s){
@@ -2936,7 +3006,7 @@ function renderCBL(){
             '<span class="cbchev" aria-hidden="true">+</span>' +
           '</button>' +
           '<div class="cblbody" hidden>' +
-            '<p class="cblcase"><b>The case.</b> ' + t.case + '</p>' +
+            '<p class="cblcase"><b>The case.</b> ' + t.case + '</p>' + photoBar(t.t) +
             '<ol class="cblqs">' + t.qs.map(function(qa){
               return '<li><p class="cblq">' + qa.q + '</p><div class="cbla">' + qa.a + '</div></li>';
             }).join("") + '</ol>' +
