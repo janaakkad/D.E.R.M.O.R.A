@@ -4124,7 +4124,7 @@ renderFlash();
     try { sessionStorage.setItem("dermora.cat","off"); } catch(x){}
   });
 
-  if(!gone) schedule(40000, 70000);
+  if(!gone) schedule(6000, 9000);   /* first hello comes early so she is actually noticed */
 
   /* she also turns up when something is finished */
   window.catCheer = function(line){ if(!gone){ show(line); } };
