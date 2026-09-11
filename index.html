@@ -35,18 +35,10 @@ img{max-width:100%}
 /* keep the rounded corners now that overflow is no longer clipping */
 .cbltopic > .cbltoggle{border-radius:9px 9px 0 0}
 .cbltopic .cblbody{border-radius:0 0 9px 9px}
-/* the collapse control needs to read as a control while it is stuck */
-.cbltopic.open > .cbltoggle::after{
-  content:"tap to collapse";
-  position:absolute; right:56px; top:50%; transform:translateY(-50%);
-  font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase;
-  color:var(--ink-3); opacity:0; transition:opacity .15s; pointer-events:none;
-}
-.cbltopic.open > .cbltoggle:hover::after{opacity:1}
+/* the collapse control speaks for itself; no overlapping label */
 .cbltoggle{position:relative}
 @media (max-width:620px){
   .cbltopic.open > .cbltoggle{top:48px}
-  .cbltopic.open > .cbltoggle::after{display:none}
 }
 @media (max-width:900px){
   .cbltopic.open > .cbltoggle .cbmeta{display:none}
